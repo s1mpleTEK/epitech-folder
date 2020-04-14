@@ -175,7 +175,7 @@ function github_user()
     fi
     case $l_ANWSER in
         y)
-            echo "Your username on Github: $USERNAME"
+            USERNAME=`git config github.user`
             if [[ $USERNAME == "" ]]; then
                 echo "error: github.user not found"
                 echo "run 'git config --global github.user <username>'"
@@ -184,7 +184,7 @@ function github_user()
                 fi
                 return 1
             fi
-            USERNAME=`git config github.user`
+            echo "Your username on Github: $USERNAME"
             github_repository
             if [ $? -ne 0 ]; then
                 if [ $DEBUG -eq 1 ]; then

@@ -89,6 +89,45 @@ function error()
     return 0
 }
 
+function blih_user()
+{
+    if [ $DEBUG -eq 1 ]; then
+        echo "DEBUG: enter in ${FUNCNAME[0]} function"
+        echo "DEBUG: the program ping once https://blih.saumon.io"
+    fi
+    ping -c 1 blih.saumon.io &> //dev/null
+    if [ $? -ne 0 ]; then
+        echo "error: https://blih.saumon.io is down or you are not connected to a wifi network or you have a bad wifi network"
+        if [ $DEBUG -eq 1 ]; then
+            echo "DEBUG: return ${FUNCNAME[0]} function: 1"
+        fi
+        return 1
+    fi
+    read -p "What is your Epitech email adress ? " ANWSER
+    LOGIN=$ANWSER
+    echo "Creating $REPOSITORY_NAME with blih ..."
+    blih -u $LOGIN repository create $REPOSITORY_NAME 
+    if [ $? -ne 0 ]; then
+        echo "error: repository $REPOSITORY_NAME could not create"
+        if [ $DEBUG -eq 1 ]; then
+            echo "DEBUG: return ${FUNCNAME[0]} function: 1"
+        fi
+        return 1
+    fi
+    blih -u $LOGIN repository setacl $REPOSITORY_NAME ramassage-tek r
+    if [ $? -ne 0 ]; then
+        echo "error: you can not give rights in repository $REPOSITORY_NAME "
+        if [ $DEBUG -eq 1 ]; then
+            echo "DEBUG: return ${FUNCNAME[0]} function: 1"
+        fi
+        return 1
+    fi
+    if [ $DEBUG -eq 1 ]; then
+        echo "DEBUG: return ${FUNCNAME[0]} function"
+    fi
+    return 0
+}
+
 function github_init_repository()
 {
     if [ $DEBUG -eq 1 ]; then
@@ -163,12 +202,12 @@ function github_user()
 {
     if [ $DEBUG -eq 1 ]; then
         echo "DEBUG: enter in ${FUNCNAME[0]} function"
-        echo "DEBUG: the program ping once github.com"
+        echo "DEBUG: the program ping once https://github.com"
     fi
     echo "Please wait ..."
     ping -c 1 github.com &> //dev/null
     if [ $? -ne 0 ]; then
-        echo "error: github.com is down or you are not connected to a wifi network or you have a bad wifi network"
+        echo "error: https://github.com is down or you are not connected to a wifi network or you have a bad wifi network"
         if [ $DEBUG -eq 1 ]; then
             echo "DEBUG: return ${FUNCNAME[0]} function: 1"
         fi
@@ -184,9 +223,8 @@ function github_user()
     fi
     case $l_ANWSER in
         y)
-            USERNAME=`git config github.user`
             echo "Your username on Github: $USERNAME"
-            if [ $USERNAME == "" ]; then
+            if [[ $USERNAME == "" ]]; then
                 echo "error: github.user not found"
                 echo "run 'git config --global github.user <username>'"
                 if [ $DEBUG -eq 1 ]; then
@@ -194,8 +232,9 @@ function github_user()
                 fi
                 return 1
             fi
+            USERNAME=`git config github.user`
             github_repository
-            if [ $? -eq 1 ]; then
+            if [ $? -ne 0 ]; then
                 if [ $DEBUG -eq 1 ]; then
                     echo "DEBUG: return ${FUNCNAME[0]} function: 1"
                 fi
@@ -204,6 +243,17 @@ function github_user()
             ;;
         n)
             xdg-open 'https://github.com/join?source=header-home' &> //dev/null
+            if [ $? -ne 0 ]; then
+                echo "error: xdg-open: command not found"
+                if [ $DEBUG -eq 1 ]; then
+                    echo "DEBUG: return ${FUNCNAME[0]} function: 1"
+                fi
+                return 1
+            fi
+            if [ $DEBUG -eq 1 ]; then
+                echo "DEBUG: return ${FUNCNAME[0]} function: 0"
+            fi
+            return 0
             ;;
         *)
             echo "syntax error: not correct anwser"
@@ -213,7 +263,7 @@ function github_user()
             github_user
             ;;
         esac
-    if [ $? -eq 1 ]; then
+    if [ $? -ne 0 ]; then
         if [ $DEBUG -eq 1 ]; then
             echo "DEBUG: return ${FUNCNAME[0]} function: 1"
         fi
@@ -244,15 +294,22 @@ function main()
     if [ $? -eq 1 ]; then
         read -p "Do you want to try to create your repository with BLIH ? (y/n) " ANWSER
         local l_ANWSER=$ANWSER
+        echo "info: repository $REPOSITORY8NAME was not created on https://github.com"
         if [ $DEBUG -eq 1 ]; then
             echo "DEBUG: anwser: $l_ANWSER"
         fi
         case $l_ANWSER in
             y)
-                #blih_user
+                blih_user
+                if [ $? -ne 0 ]; then
+                "info: repository $REPOSITORY8NAME was not created on https://blih.saumon.io"
+                    if [ $DEBUG -eq 1 ]; then
+                    echo "DEBUG: return ${FUNCNAME[0]} function: 1"
+                    return 1
+                fi
                 ;;
             n | *)
-                echo "info: none repository was created"
+                echo "info: repository $REPOSITORY8NAME was not created on https://blih.saumon.io"
                 echo "PROGRAM FINISH"
                 if [ $DEBUG -eq 1 ]; then
                     echo "DEBUG: return ${FUNCNAME[0]} function: 0"
@@ -260,8 +317,14 @@ function main()
                 return 0
                 ;;
         esac
-    #else
-        #blih_user
+    else
+        blih_user
+        if [ $? -ne 0 ]; then
+            "info: repository $REPOSITORY8NAME was not created on https://blih.saumon.io"
+            if [ $DEBUG -eq 1 ]; then
+            echo "DEBUG: return ${FUNCNAME[0]} function: 1"
+            return 1
+    fi
     fi
     echo "PROGRAM FINISH"
     if [ $DEBUG -eq 1 ]; then

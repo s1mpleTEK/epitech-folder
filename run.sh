@@ -95,7 +95,8 @@ function github_create_repository()
         echo "DEBUG: enter in ${FUNCNAME[0]} function"
     fi
     echo "Creating Github repository '$REPOSITORY_NAME' ..."
-    curl -i -u $USERNAME https://api.github.com/user/repos -d '{"name":"'$REPOSITORY_NAME'"}' -d '{"private":"'true'"}'
+    curl -u $USERNAME https://api.github.com/user/repos -d '{"name":"'$REPOSITORY_NAME'"}' -d '{"private":"'true'"}'
+    curl -u $USERNAME https://api.github.com/repos/$USERNAME/$REPOSITORY_NAME/collaborators{/ramassage-tls} -X PUT
     if [ $? -ne 0 ];then
         echo "error: the repository $REPOSITORY_NAME is not created"
         if [ $DEBUG -eq 1 ]; then
@@ -104,8 +105,8 @@ function github_create_repository()
         return 1
     fi
     echo "The repository $REPOSITORY_NAME is created"
-    #git clone https://github.com/$USERNAME/$REPOSITORY_NAME.git
-    #echo "The repository $REPOSITORY_NAME is clonned"
+    git clone https://github.com/$USERNAME/$REPOSITORY_NAME.git
+    echo "The repository $REPOSITORY_NAME is clonned"
     return 0
 }
 
@@ -145,7 +146,7 @@ function github_user()
         echo "DEBUG: enter in ${FUNCNAME[0]} function"
         echo "DEBUG: the program ping once github.com"
     fi
-    echo "Please wait. . ."
+    echo "Please wait ..."
     ping -c 1 github.com &> //dev/null
     if [ $? -ne 0 ]; then
         echo "error: github.com is down or you are not connected to a wifi network or you have a bad wifi network"

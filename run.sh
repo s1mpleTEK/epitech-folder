@@ -101,7 +101,7 @@ function github_create_repository()
         echo "DEBUG: enter in ${FUNCNAME[0]} function"
     fi
     echo "Creating Github repository '$REPOSITORY_NAME' ..."
-    curl -u $USERNAME https://api.github.com/user/repos -d '{"name":"'$REPOSITORY_NAME'"}' 
+    curl -u $USERNAME https://api.github.com/user/repos -d '{"name":"'$REPOSITORY_NAME'"}'
     curl -u $USERNAME https://api.github.com/repos/$USERNAME/$REPOSITORY_NAME -d '{"private":"'true'"}'
     curl -u $USERNAME https://api.github.com/repos/$USERNAME/$REPOSITORY_NAME/collaborators{/ramassage-tls} -X PUT
     if [ $? -ne 0 ];then
@@ -113,6 +113,13 @@ function github_create_repository()
     fi
     echo "The repository $REPOSITORY_NAME is created"
     git clone https://github.com/$USERNAME/$REPOSITORY_NAME.git
+    if [ $? -ne 0 ];then
+        echo "error: the repository $REPOSITORY_NAME is not cloned"
+        if [ $DEBUG -eq 1 ]; then
+            echo "DEBUG: return ${FUNCNAME[0]} function: 1"
+        fi
+        return 1
+    fi
     echo "The repository $REPOSITORY_NAME is clonned"
     if [ $DEBUG -eq 1 ]; then
         echo "DEBUG: return ${FUNCNAME[0]} function"
@@ -318,7 +325,14 @@ function main()
     fi
     github_user
     if [ $? -eq 1 ]; then
-        echo "error: none repository has created"
+        curl -i https://github.com/$USERNAME/$REPOSITORY_NAME >> .output
+        local l_OUTPUT=`head -n 1 .output`
+        if [[ $l_OUTPUT == "HTTP/1.1 404 Not Found" ]]; then
+            echo "error: none repository has created"
+        else
+            echo "info: only your repository on Github is created"
+        fi
+        rm .output
         if [ $DEBUG -eq 1 ]; then
             echo "DEBUG: exit ${FUNCNAME[0]} function: 1"
         fi

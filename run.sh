@@ -318,37 +318,18 @@ function main()
     fi
     github_user
     if [ $? -eq 1 ]; then
-        read -p "Do you want to try to create your repository with BLIH ? (y/n) " ANWSER
+        echo "error: none repository has created"
         if [ $DEBUG -eq 1 ]; then
-            echo "DEBUG: anwser: $ANWSER"
+            echo "DEBUG: exit ${FUNCNAME[0]} function: 1"
         fi
-        local l_ANWSER=$ANWSER
-        echo "info: repository $REPOSITORY_NAME was not created on https://github.com"
-        case $l_ANWSER in
-            y)
-                blih_create_repository
-                if [ $? -ne 0 ]; then
-                "info: repository $REPOSITORY_NAME was not created on https://blih.saumon.io"
-                    if [ $DEBUG -eq 1 ]; then
-                    echo "DEBUG: return ${FUNCNAME[0]} function: 1"
-                    return 1
-                fi
-                ;;
-            n | *)
-                echo "info: repository $REPOSITORY_NAME was not created on https://blih.saumon.io"
-                echo "PROGRAM FINISH"
-                if [ $DEBUG -eq 1 ]; then
-                    echo "DEBUG: return ${FUNCNAME[0]} function: 0"
-                fi
-                return 0
-                ;;
-        esac
+        exit 1
     else
         blih_create_repository
         if [ $? -ne 0 ]; then
             "info: repository $REPOSITORY_NAME was not created on https://blih.saumon.io"
             if [ $DEBUG -eq 1 ]; then
             echo "DEBUG: return ${FUNCNAME[0]} function: 1"
+            fi
             return 1
         fi
     fi

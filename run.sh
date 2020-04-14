@@ -89,13 +89,28 @@ function error()
     return 0
 }
 
+function github_init_repository()
+{
+    if [ $DEBUG -eq 1 ]; then
+        echo "DEBUG: enter in ${FUNCNAME[0]} function"
+    fi
+    echo "Creating README ..."
+    touch $REPOSITORY_NAME/README.md
+    echo "README is created"
+    if [ $DEBUG -eq 1 ]; then
+        echo "DEBUG: return ${FUNCNAME[0]} function"
+    fi
+    return 0
+}
+
 function github_create_repository()
 {
     if [ $DEBUG -eq 1 ]; then
         echo "DEBUG: enter in ${FUNCNAME[0]} function"
     fi
     echo "Creating Github repository '$REPOSITORY_NAME' ..."
-    curl -u $USERNAME https://api.github.com/user/repos -d '{"name":"'$REPOSITORY_NAME'"}' -d '{"private":"'true'"}'
+    curl -u $USERNAME https://api.github.com/user/repos -d '{"name":"'$REPOSITORY_NAME'"}' 
+    curl -u $USERNAME https://api.github.com/repos/$USERNAME/$REPOSITORY_NAME -d '{"private":"'true'"}'
     curl -u $USERNAME https://api.github.com/repos/$USERNAME/$REPOSITORY_NAME/collaborators{/ramassage-tls} -X PUT
     if [ $? -ne 0 ];then
         echo "error: the repository $REPOSITORY_NAME is not created"
@@ -107,6 +122,10 @@ function github_create_repository()
     echo "The repository $REPOSITORY_NAME is created"
     git clone https://github.com/$USERNAME/$REPOSITORY_NAME.git
     echo "The repository $REPOSITORY_NAME is clonned"
+    github_init_repository
+    if [ $DEBUG -eq 1 ]; then
+        echo "DEBUG: return ${FUNCNAME[0]} function"
+    fi
     return 0
 }
 
@@ -241,7 +260,7 @@ function main()
                 return 0
                 ;;
         esac
-    else
+    #else
         #blih_user
     fi
     echo "PROGRAM FINISH"

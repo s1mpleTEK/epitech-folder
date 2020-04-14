@@ -42,7 +42,13 @@ function help()
     if [ $DEBUG -eq 1 ]; then
         echo DEBUG: "enter in ${FUNCNAME[0]} function"
     fi
-    cat ./help
+    echo "USAGE"
+    echo "    ./run.sh"
+    echo -e "\nCOMMAND\n"
+    echo "    -h, --help       Help for use run.sh"
+    echo "    -d, --debug      Show debug messages"
+    echo -e "\nDESCRIPTION\n"
+    echo "This is a shell script for create your own repository, Github and Blih in the same time."
     if [ $DEBUG -eq 1 ]; then
         echo "DEBUG: return ${FUNCNAME[0]} function: 0"
     fi
@@ -313,11 +319,11 @@ function main()
     github_user
     if [ $? -eq 1 ]; then
         read -p "Do you want to try to create your repository with BLIH ? (y/n) " ANWSER
+        if [ $DEBUG -eq 1 ]; then
+            echo "DEBUG: anwser: $ANWSER"
+        fi
         local l_ANWSER=$ANWSER
         echo "info: repository $REPOSITORY_NAME was not created on https://github.com"
-        if [ $DEBUG -eq 1 ]; then
-            echo "DEBUG: anwser: $l_ANWSER"
-        fi
         case $l_ANWSER in
             y)
                 blih_create_repository
@@ -347,6 +353,19 @@ function main()
         fi
     fi
     init_repository
+    read -p "Do you want to open your repository page on GitHub and Blih ? (y/n) " ANWSER
+    if [ $DEBUG -eq 1 ]; then
+        echo "DEBUG: anwser: $ANWSER"
+    fi
+    local l_OPEN=$ANWSER
+    case $l_OPEN in
+        y)
+            xdg-open "https://github.com/$USERNAME/$REPOSITORY_NAME" &> //dev/null
+            xdg-open "https://blih.saumon.io" &> //dev/null
+            ;;
+        n | *)
+            ;;
+    esac
     echo "PROGRAM FINISH"
     if [ $DEBUG -eq 1 ]; then
         echo "DEBUG: return ${FUNCNAME[0]} function: 0"

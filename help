@@ -1,9 +1,0 @@
-USAGE
-    ./run.sh
-
-COMMAND
-    -h, --help       Help for use run.sh
-    -d, --debug      Show debug messages
-
-DESCRIPTION
-    not ready

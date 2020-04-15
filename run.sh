@@ -101,9 +101,12 @@ function github_create_repository()
         echo "DEBUG: enter in ${FUNCNAME[0]} function"
     fi
     echo "Creating Github repository '$REPOSITORY_NAME' ..."
-    curl -u $USERNAME https://api.github.com/user/repos -d '{"name":"'$REPOSITORY_NAME'"}'
-    curl -u $USERNAME https://api.github.com/repos/$USERNAME/$REPOSITORY_NAME -d '{"private":"'true'"}'
-    curl -u $USERNAME https://api.github.com/repos/$USERNAME/$REPOSITORY_NAME/collaborators{/ramassage-tls} -X PUT
+    curl -u $USERNAME https://api.github.com/user/repos -d '{"name":"'$REPOSITORY_NAME'"}' >> .output
+    echo "Set '$REPOSITORY_NAME' repository in private ..."
+    curl -u $USERNAME https://api.github.com/repos/$USERNAME/$REPOSITORY_NAME -d '{"private":"'true'"}' >> .output
+    echo "Set access at ramassage-tls in '$REPOSITORY_NAME' repository ..."
+    curl -u $USERNAME https://api.github.com/repos/$USERNAME/$REPOSITORY_NAME/collaborators{/ramassage-tls} -X PUT >> .output
+    rm .output
     if [ $? -ne 0 ];then
         echo "error: the repository $REPOSITORY_NAME is not created"
         if [ $DEBUG -eq 1 ]; then
@@ -238,11 +241,12 @@ function blih_create_repository()
 {
     if [ $DEBUG -eq 1 ]; then
         echo "DEBUG: enter in ${FUNCNAME[0]} function"
-        echo "DEBUG: the program ping once https://blih.saumon.io"
+        echo "DEBUG: the program ping once https://blih.epitech.eu"
     fi
-    ping -c 1 blih.saumon.io &> //dev/null
+    echo "Please wait ..."
+    ping -c 1 blih.epitech.eu &> //dev/null
     if [ $? -ne 0 ]; then
-        echo "error: https://blih.saumon.io is down or you are not connected to a wifi network or you have a bad wifi network"
+        echo "error: https://blih.epitech.eu is down or you are not connected to a wifi network or you have a bad wifi network"
         if [ $DEBUG -eq 1 ]; then
             echo "DEBUG: return ${FUNCNAME[0]} function: 1"
         fi
@@ -259,6 +263,7 @@ function blih_create_repository()
         fi
         return 1
     fi
+    echo "Set access at ramassage-tek ..."
     blih -u $LOGIN repository setacl $REPOSITORY_NAME ramassage-tek r
     if [ $? -ne 0 ]; then
         echo "error: you can not give rights in repository $REPOSITORY_NAME "
@@ -280,7 +285,7 @@ function init_files_repository()
     fi
     echo "Creating README ..."
     touch $REPOSITORY_NAME/README.md
-    echo "README OF $REPOSITORY_NAME" > $REPOSITORY_NAME/README.md
+    echo "# README OF $REPOSITORY_NAME" > $REPOSITORY_NAME/README.md
     echo "README is created"
     touch $REPOSITORY_NAME/.gitignore
     echo ".vscode" > $REPOSITORY_NAME/.gitignore
@@ -296,7 +301,8 @@ function init_repository()
     if [ $DEBUG -eq 1 ]; then
         echo "DEBUG: enter in ${FUNCNAME[0]} function"
     fi
-    git -C $REPOSITORY_NAME/ remote add blih "$REPOSITORY_NAME"
+    git -C $REPOSITORY_NAME/ init .
+    git -C $REPOSITORY_NAME/ remote add blih "git@git.epitech.eu:$LOGIN/$REPOSITORY_NAME"
     init_files_repository
     git -C $REPOSITORY_NAME/ add README.md .gitignore
     git -C $REPOSITORY_NAME/ commit -m "[INIT REPOSITORY]"

@@ -10,7 +10,7 @@
 
 ## About
 
-You are all aware that SARA has made her appearance in the big family that is Epitech.
+You all know that a new tool has appeared in the great family that is Epitech Toulouse thanks to Hugo Perrez. And this new tool is called, SARA.
 
 As a result, a new way to create your folders is to go through Github !
 
@@ -18,7 +18,7 @@ This is very nice, because lately Blih is a victim of Ddos, a real boomer.
 
 So, I launched myself into the nothingness of programming, to offer you today a very practical script.
 
-What does this script do ? This script will create you a private repository on Github with "ramassage-tsl" enabled and clone your repository in the place where the script is executed (Of course for the pickup, you must first have completed Nicolas' questionnaire, which consists of providing him with your nickname GitHub).
+What does this script do ? This script will create you a private repository on Github with "ramassage-tls" enabled and clone your repository in the place where the script is executed (Of course for the pickup, you must first have completed Nicolas' questionnaire, which consists of providing him with your nickname GitHub).
 
 Nevertheless, it doesn't just do that, it will create your Blih repository with the functional "ramasage-tek".
 

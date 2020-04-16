@@ -237,7 +237,8 @@ function github_user()
                 rm .id_output
                 git config --global github.email "$ID+$USERNAME@users.noreply.github.com"
             fi
-            git config --global github.email
+            local l_EMAIL=`git config --global github.email`
+            echo "Your public email on Github: $l_EMAIL"
             github_repository
             if [ $? -ne 0 ]; then
                 if [ $DEBUG -eq 1 ]; then

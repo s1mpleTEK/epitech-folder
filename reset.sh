@@ -51,7 +51,7 @@ function error()
 ##################################################
 
 ####################TIER S_b######################
-function setup_email_b()
+function reset_email_b()
 {
     git config --global blih.email ""
     echo "Your Blih email has been remove from your computer"
@@ -60,14 +60,14 @@ function setup_email_b()
 ##################################################
 
 ####################TIER S_g######################
-function setup_user_g()
+function reset_user_g()
 {
     git config --global github.user ""
     echo "Your Github username has been remove from your computer"
     return 0
 }
 
-function setup_email_g()
+function reset_email_g()
 {
     git config --global github.email ""
     echo "Your Github public email has been remove from your computer"
@@ -82,10 +82,11 @@ function main()
     error "$@"
     if [ $HELP -eq 1 ]; then
         help
-        echo "SETUP FINISH"
+        echo "RESET FINISH"
         return 0
     fi
     git config --global epitech-folder.pwd ""
+    git config --global blih.name ""
     reset_user_g
     reset_email_g
     reset_email_b

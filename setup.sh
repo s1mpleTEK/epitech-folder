@@ -14,7 +14,7 @@ cmd=('-h' '--help')
 USERNAME=`git config --global github.user`
 EMAIL=`git config --global github.email`
 BLIH=`git config --global blih.email`
-PWD=`git config --global epitech-folder.pwd `pwd``
+NAME=`git config --global blih.name`
 ID=""
 ID_LEN=""
 
@@ -150,6 +150,13 @@ function main()
         help
         echo "SETUP FINISH"
         return 0
+    fi
+    git config --global epitech-folder.pwd `pwd`
+    echo "Your current full name on your computer: $NAME"
+    if [[ $NAME == "" ]]; then
+        read -p "What is your full name ? " ANWSER
+        git config --global blih.name "$ANWSER"
+        echo "Your new full name on your computer: $NAME"
     fi
     setup_user_g
     setup_email_g

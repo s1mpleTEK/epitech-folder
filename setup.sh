@@ -30,7 +30,7 @@ function help()
     echo -e "\nCOMMAND\n"
     echo "    -h, --help       Help for use setup.sh"
     echo -e "\nDESCRIPTION\n"
-    echo "This is a shell script to set up run.sh"
+    echo "    This is a shell script to set up run.sh"
     return 0
 }
 

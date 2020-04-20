@@ -10,11 +10,12 @@
 ##########################################VARIABLEs#############################################
 
 DEBUG=0
+UPGRADE=0
 HELP=0
 GITHUB=0
 BLIH=0
 API=0
-cmd=('-h' '--help' '-d' '--debug' '-dh' '-hd' '--help--debug' '--debug--help')
+cmd=('-h' '--help' '-d' '--debug' '-dh' '-hd' '--help--debug' '--debug--help' '-u' '--upgrade')
 REPOSITORY_NAME=""
 USERNAME=`git config --global github.user`
 EMAILG=`git config --global github.email`
@@ -42,9 +43,21 @@ done
 
 ################################################################################################
 
+#########################################UPGRADE CHECK##########################################
+
+for i in "$@"; do
+    case $i in
+        ${cmd[8]} | ${cmd[9]})
+            UPGRADE=1
+            ;;
+    esac
+done
+
+################################################################################################
+
 ###########################################FUNCTIONS############################################
 
-######################TIER HE############################
+######################TIER HEU############################
 function help()
 {
     if [ $DEBUG -eq 1 ]; then
@@ -55,6 +68,7 @@ function help()
     echo -e "\nCOMMAND\n"
     echo "    -h, --help       Help for use run.sh"
     echo "    -d, --debug      Show debug messages"
+    echo "    -u, --upgrade    Upgrade epitech-folder repository"
     echo -e "\nDESCRIPTION\n"
     echo "    This is a shell script for create your own repository, Github and Blih in the same time."
     if [ $DEBUG -eq 1 ]; then
@@ -81,7 +95,7 @@ function error()
             ${cmd[0]} | ${cmd[1]} | ${cmd[4]} | ${cmd[5]} | ${cmd[6]} | ${cmd[7]})
                 HELP=1
                 ;;
-            ${cmd[2]} | ${cmd[3]})
+            ${cmd[2]} | ${cmd[3]} | ${cmd[8]} | ${cmd[9]})
                 ;;
             *)
                 echo "error: $i: command not found"
@@ -93,6 +107,20 @@ function error()
                 ;;
         esac
     done
+    if [ $DEBUG -eq 1 ]; then
+        echo "DEBUG: return ${FUNCNAME[0]} function: 0"
+    fi
+    return 0
+}
+
+function upgrade()
+{
+    if [ $DEBUG -eq 1 ]; then
+        echo "DEBUG: enter in ${FUNCNAME[0]} function"
+    fi
+    echo "Please wait ..."
+    git -C $SRCPWD pull
+    echo "Your epitech-folder repository is update here: $SRCPWD"
     if [ $DEBUG -eq 1 ]; then
         echo "DEBUG: return ${FUNCNAME[0]} function: 0"
     fi
@@ -610,6 +638,16 @@ function main()
     fi
     echo "PROGRAM START"
     error "$@"
+    if [[ $UPGRADE -eq 1 && $HELP -eq 0 ]]; then
+        upgrade
+        if [ $DEBUG -eq 1 ]; then
+            echo "DEBUG: return ${FUNCNAME[0]} function: 0"
+        fi
+        echo "PROGRAM FINISH"
+        return 0
+    elif [[ $UPGRADE -eq 1 && $HELP -eq 1 ]]; then
+        upgrade
+    fi
     if [ $HELP -eq 1 ]; then
         help
         if [ $DEBUG -eq 1 ]; then

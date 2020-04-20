@@ -68,6 +68,7 @@ function help()
     echo -e "\nCOMMAND\n"
     echo "    -h, --help       Help for use run.sh"
     echo "    -d, --debug      Show debug messages"
+    echo "    -u, --upgrade    Upgrade epitech-folder repository"
     echo -e "\nDESCRIPTION\n"
     echo "    This is a shell script for create your own repository, Github and Blih in the same time."
     if [ $DEBUG -eq 1 ]; then
@@ -114,9 +115,15 @@ function error()
 
 function upgrade()
 {
+    if [ $DEBUG -eq 1 ]; then
+        echo "DEBUG: enter in ${FUNCNAME[0]} function"
+    fi
     echo "Please wait ..."
-    git -C ~/$SRCPWD pull &> //dev/null/
-    echo "Your epitech-folder repository is update"
+    git -C $SRCPWD pull
+    echo "Your epitech-folder repository is update here: $SRCPWD"
+    if [ $DEBUG -eq 1 ]; then
+        echo "DEBUG: return ${FUNCNAME[0]} function: 0"
+    fi
     return 0
 }
 ##################################################

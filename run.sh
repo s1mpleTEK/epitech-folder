@@ -120,6 +120,12 @@ function upgrade()
     fi
     echo "Please wait ..."
     git -C $SRCPWD pull
+    if [ $? -ne 0 ];then
+        if [ $DEBUG -eq 1 ]; then
+            echo "DEBUG: exit ${FUNCNAME[0]} function: 1"
+        fi
+        exit 1
+    fi
     echo "Your epitech-folder repository is update here: $SRCPWD"
     if [ $DEBUG -eq 1 ]; then
         echo "DEBUG: return ${FUNCNAME[0]} function: 0"

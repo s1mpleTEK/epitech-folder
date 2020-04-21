@@ -117,7 +117,7 @@ function setup_user_g()
 function setup_email_g()
 {
     echo "Your current Github public email on your computer: $EMAIL"
-    if [[ $EMAIL == "" || $NEWUSER -eq 1]]; then
+    if [[ $EMAIL == "" || $NEWUSER -eq 1 ]]; then
         echo "Please wait ..."
         curl -f -m 120 -u $USERNAME https://api.github.com/users/$USERNAME >> .id_output
         if [ $? -ne 0 ];then

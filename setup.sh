@@ -17,6 +17,7 @@ BLIH=`git config --global blih.email`
 NAME=`git config --global blih.name`
 ID=""
 ID_LEN=""
+NEWUSER=0
 
 ################################################################################################
 
@@ -61,19 +62,19 @@ function setup_email_b()
 {
     echo "Your current Epitech email on your computer: $BLIH"
     if [[ $BLIH == "" ]]; then
-        read -p "What is it your Epitech email ? " ANWSER
+        read -p "What is your Epitech email ? " ANWSER
         git config --global blih.email "$ANWSER"
         BLIH=`git config --global blih.email`
-        echo "Your new current Epitech email on your computer: $BLIH"
+        echo "Your new Epitech email on your computer: $BLIH"
     fi
     read -p "Is it your good Epitech email ? (y/n) " ANWSER
     case $ANWSER in
         y | Y)
             ;;
         n | N)
-            read -p "What is it your Epitech email ? " ANWSER
+            read -p "What is your Epitech email ? " ANWSER
             git config --global blih.email "$ANWSER"
-            echo "Your new current Epitech email on your computer: $BLIH"
+            echo "Your new Epitech email on your computer: $BLIH"
             ;;
         *)
             echo "syntax error: not correct anwser"
@@ -89,20 +90,21 @@ function setup_user_g()
 {
     echo "Your current Github username on your computer: $USERNAME"
     if [[ $USERNAME == "" ]]; then
-        read -p "What is it your Github username ? " ANWSER
+        read -p "What is your Github username ? " ANWSER
         git config --global github.user "$ANWSER"
         USERNAME=`git config --global github.user`
-        echo "Your new current Github username on your computer: $USERNAME"
+        echo "Your new Github username on your computer: $USERNAME"
     fi
-    read -p "Is it your good Github user ? (y/n) " ANWSER
+    read -p "Is it your own good Github user ? (y/n) " ANWSER
     case $ANWSER in
         y | Y)
             ;;
         n | N)
-            read -p "What is it your Github username ? " ANWSER
+            read -p "What is your Github username ? " ANWSER
             git config --global github.user "$ANWSER"
             USERNAME=`git config --global github.user`
-            echo "Your new current Github username on your computer: $USERNAME"
+            echo "Your new Github username on your computer: $USERNAME"
+            NEWUSER=1
             ;;
         *)
             echo "syntax error: not correct anwser"
@@ -115,9 +117,9 @@ function setup_user_g()
 function setup_email_g()
 {
     echo "Your current Github public email on your computer: $EMAIL"
-    if [[ $EMAIL == "" ]]; then
+    if [[ $EMAIL == "" || $NEWUSER -eq 1]]; then
         echo "Please wait ..."
-        curl -f -u $USERNAME https://api.github.com/users/$USERNAME >> .id_output
+        curl -f -m 120 -u $USERNAME https://api.github.com/users/$USERNAME >> .id_output
         if [ $? -ne 0 ];then
             rm .id_output
             echo "error: github.email not found"
@@ -135,7 +137,7 @@ function setup_email_g()
         rm .id_output
         git config --global github.email "$ID+$USERNAME@users.noreply.github.com"
         EMAIL=`git config --global github.email`
-        echo "Your new current Github public email on your computer: $EMAIL"
+        echo "Your new Github public email on your computer: $EMAIL"
     fi
     return 0
 }
@@ -152,11 +154,27 @@ function main()
         return 0
     fi
     git config --global epitech-folder.pwd `pwd`
-    echo "Your current full name on your computer: $NAME"
     if [[ $NAME == "" ]]; then
         read -p "What is your full name ? " ANWSER
         git config --global blih.name "$ANWSER"
         echo "Your new full name on your computer: $NAME"
+    else
+        echo "Your current full name on your computer: $NAME"
+        read -p "Is it your good full name ? (y/n) " ANWSER
+        case $ANWSER in
+            y | Y)
+                ;;
+            n | N)
+                read -p "What is your full name ? " ANWSER
+                git config --global blih.name "$ANWSER"
+                NAME=`git config --global blih.name`
+                echo "Your new full name on your computer: $NAME"
+                ;;
+            *)
+                echo "syntax error: not correct anwser"
+                echo "info: nothing will change"
+                ;;
+        esac
     fi
     setup_user_g
     setup_email_g

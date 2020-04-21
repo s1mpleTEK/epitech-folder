@@ -136,7 +136,7 @@ function github_create_repository()
     fi
     echo "Creates Github repository '$REPOSITORY_NAME' ..."
     if [ $GCLONE -eq 1 ]; then
-        curl -f -u $USERNAME https://api.github.com/user/repos -d '{"name":"'$REPOSITORY_NAME'"}' >> .output
+        curl -f -m 120 -u $USERNAME https://api.github.com/user/repos -d '{"name":"'$REPOSITORY_NAME'"}' >> .output
         if [ $? -ne 0 ];then
             rm .output
             echo "error: the repository $REPOSITORY_NAME is not created"
@@ -148,7 +148,7 @@ function github_create_repository()
         rm .output
         echo "The Github repository $REPOSITORY_NAME has been created"
     elif [ $GCLONE -eq 0 ]; then
-        curl -f -u $USERNAME https://api.github.com/user/repos -d '{"name":"'$REPOSITORY_NAME'","auto_init":true}' >> .output
+        curl -f -m 120 -u $USERNAME https://api.github.com/user/repos -d '{"name":"'$REPOSITORY_NAME'","auto_init":true}' >> .output
         if [ $? -ne 0 ];then
             rm .output
             echo "error: the repository $REPOSITORY_NAME is not created"
@@ -168,7 +168,7 @@ function github_create_repository()
     case $l_ANWSER in
         y | Y)
             echo "Puts '$REPOSITORY_NAME' repository in private ..."
-            curl -f -u $USERNAME https://api.github.com/repos/$USERNAME/$REPOSITORY_NAME -d '{"private":"'true'"}' >> .output
+            curl -f -m 120 -u $USERNAME https://api.github.com/repos/$USERNAME/$REPOSITORY_NAME -d '{"private":"'true'"}' >> .output
             if [ $? -ne 0 ];then
                 echo "error: the repository $REPOSITORY_NAME will not be private"
             else
@@ -187,7 +187,7 @@ function github_create_repository()
     case $l_ANWSER in
         y | Y)
             echo "Sets access at ramassage-tls in '$REPOSITORY_NAME' repository ..."
-            curl -f -u $USERNAME https://api.github.com/repos/$USERNAME/$REPOSITORY_NAME/collaborators{/ramassage-tls} -X PUT >> .output
+            curl -f -m 120 -u $USERNAME https://api.github.com/repos/$USERNAME/$REPOSITORY_NAME/collaborators{/ramassage-tls} -X PUT >> .output
             if [ $? -ne 0 ];then
                 echo "error: the Github repository $REPOSITORY_NAME will not does give access to ramassage-tls"
             else
@@ -508,7 +508,7 @@ function init_files_repository()
     fi
     echo "Creating README ..."
     touch $REPOSITORY_NAME/README.md
-    echo "# README OF $REPOSITORY_NAME" > $REPOSITORY_NAME/README.md
+    echo "# $REPOSITORY_NAME" > $REPOSITORY_NAME/README.md
     echo "README is created"
     touch $REPOSITORY_NAME/.gitignore
     echo ".vscode" > $REPOSITORY_NAME/.gitignore
@@ -547,7 +547,7 @@ function server_important_check()
         echo "DEBUG: enter in ${FUNCNAME[0]} function"
     fi
     echo "Please wait ..."
-    ping -c 1 api.github.com &> //dev/null
+    ping -c 3 api.github.com &> //dev/null
     if [ $? -ne 0 ]; then
         echo "error: https://api.github.com are down or you are not connected to a wifi network or you have a bad wifi network"
         API=0
@@ -559,7 +559,7 @@ function server_important_check()
     fi
     
     echo "Please wait ..."
-    ping -c 1 github.com &> //dev/null
+    ping -c 3 github.com &> //dev/null
     if [ $? -ne 0 ]; then
         echo "error: https://github.com is down or you are not connected to a wifi network or you have a bad wifi network"
         GITHUB=0
@@ -570,7 +570,7 @@ function server_important_check()
         fi
     fi
     echo "Please wait ..."
-    ping -c 1 blih.epitech.eu &> //dev/null
+    ping -c 3 blih.epitech.eu &> //dev/null
     if [ $? -ne 0 ]; then
         echo "error: https://blih.epitech.eu is down or you are not connected to a wifi network or you have a bad wifi network"
         BLIH=0
@@ -688,7 +688,7 @@ function main()
                 fi
                 github_user
                 if [ $? -eq 1 ]; then
-                    curl -f https://github.com/$USERNAME/$REPOSITORY_NAME &> //dev/null
+                    curl -f -m 120 https://github.com/$USERNAME/$REPOSITORY_NAME &> //dev/null
                     if [ $? -ne 0 ]; then
                         echo "error: none Github repository created"
                     else

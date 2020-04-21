@@ -553,7 +553,7 @@ function server_important_check()
         echo "DEBUG: enter in ${FUNCNAME[0]} function"
     fi
     echo "Please wait ..."
-    ping -c 3 api.github.com &> //dev/null
+    ping -w 3 api.github.com &> //dev/null
     if [ $? -ne 0 ]; then
         echo "error: https://api.github.com are down or you are not connected to a wifi network or you have a bad wifi network"
         API=0
@@ -565,7 +565,7 @@ function server_important_check()
     fi
     
     echo "Please wait ..."
-    ping -c 3 github.com &> //dev/null
+    ping -w 3 github.com &> //dev/null
     if [ $? -ne 0 ]; then
         echo "error: https://github.com is down or you are not connected to a wifi network or you have a bad wifi network"
         GITHUB=0
@@ -576,7 +576,7 @@ function server_important_check()
         fi
     fi
     echo "Please wait ..."
-    ping -c 3 blih.epitech.eu &> //dev/null
+    ping -w 3 blih.epitech.eu &> //dev/null
     if [ $? -ne 0 ]; then
         echo "error: https://blih.epitech.eu is down or you are not connected to a wifi network or you have a bad wifi network"
         BLIH=0

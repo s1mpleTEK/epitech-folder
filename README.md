@@ -5,12 +5,14 @@
 - About
 - Getting Started
 - Usage
+- Commands
+- Tips
 - [License](https://github.com/s1mpleTEK/epitech-folder/blob/master/LICENSE)
 - Autor
 
 ## About
 
-You all know that a new tool has appeared in the great family that is Epitech Toulouse thanks to Hugo Perrez. And this new tool is called, SARA.
+You all know that a new tool has appeared in the great family that is Epitech Toulouse thanks to Hugo Perez. And this new tool is called, SARA.
 
 As a result, a new way to create your folders is to go through Github !
 
@@ -30,33 +32,64 @@ And to make it wonderful, it takes care of setting Blih, of `git add` the two fi
 
 These instructions will get you a copy of the project up and running on your local machine.
 
-### Prerequisites
-
-You need to verify that `xdg-open` is on your machine, to do this you need to run this command:
-``` shell
-whereis xdg-open
-```
-After that, you need to set up your `github.user` with your Github username and your `github.email` with your [Github user id](https://caius.github.io/github_id/) (don't take '#') and ursename. To do that run this:
-```shell
-git config --global github.user <username>
-
-git config --global github.email <id>+<username>@users.noreply.github.com
-```
 ### Installing
 
 To clone this project, write this command:
 ``` shell
-git clone https://github.com/s1mpleTEK/epitech-folder
+user:~/$> git clone https://github.com/s1mpleTEK/epitech-folder
 ```
+
+### Prerequisites
+
+You need to verify that `xdg-open` is on your machine, to do this you need to run this command:
+``` shell
+user:~/$> whereis xdg-open
+```
+Now, follow the usage of setup.sh.
 
 ## Usage
-To create your repository you must then launch `run.sh`, in the right place for the creation of your repository. Example:
-```shell
-user:~/delivery/'Unix System Programming'/$>../../epitech-folder/./run.sh
+
+### setup.sh
+
+After that, you need to set up your computer. For this run:
+``` shell
+user:~/epitech-folder/$> ./setup.sh
 ```
 
-### Tips
-`run.sh` works as well alone out of the epitech-folder.
+### run.sh
+
+To create your repository you must then launch `run.sh`, in the right place for the creation of your repository. Example:
+``` shell
+user:~/delivery/'Unix System Programming'/$> ../../epitech-folder/./run.sh
+```
+
+### reset.sh
+
+If you want change your paramater, you can re-run `setup.sh` or `reset.sh` and `setup.sh` after this.
+``` shell
+user:~/epitech-folder/$> ./reset.sh
+```
+
+## Commands
+
+|   run.sh  |                               Meaning                                       |
+|-----------|-----------------------------------------------------------------------------|
+|-h --help  | Help for use run.sh                                                         |
+|-d --debug | Show debug messages                                                         |
+|-u --upgrade| Upgrade epitech-folder repository                                          |
+
+| setup.sh  |                               Meaning                                       |
+|-----------|-----------------------------------------------------------------------------|
+|-h --help  | Help for use setup.sh                                                       |
+
+| reset.sh  |                               Meaning                                       |
+|-----------|-----------------------------------------------------------------------------|
+|-h --help  | Help for use reset.sh                                                       |
+
+## Tips
+- `run.sh` works as well alone out of the epitech-folder.
+- You can upgrade the `epitech-folder` repository with `run.sh -u`
+:exclamation: If the file `run.sh` is outside the `epitech-folder` repository, the file `run.sh` who execute the command `-u` or `--upgrade` will not be updated and there will be a new version in the `epitech-folder` repository.
 
 ## License
 [MIT](https://github.com/s1mpleTEK/epitech-folder/blob/master/LICENSE)

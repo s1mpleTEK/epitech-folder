@@ -22,7 +22,7 @@ function help()
     echo "USAGE"
     echo "    ./setup.sh"
     echo -e "\nCOMMAND\n"
-    echo "    -h, --help       Help for use setup.sh"
+    echo "    -h, --help       Help for use reset.sh"
     echo -e "\nDESCRIPTION\n"
     echo "    This is a shell script to reset your Github username, public email and Blih email from your computer"
     return 0

@@ -8,7 +8,7 @@
 - [Commands](https://github.com/s1mpleTEK/epitech-folder#commands)
 - [Tips](https://github.com/s1mpleTEK/epitech-folder#tips)
 - [License](https://github.com/s1mpleTEK/epitech-folder#license)
-- [Autor](https://github.com/s1mpleTEK/epitech-folder#autor)
+- [Author](https://github.com/s1mpleTEK/epitech-folder#author)
 
 ## About
 

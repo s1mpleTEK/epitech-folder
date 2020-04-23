@@ -2,13 +2,13 @@
 
 ## Table of Contents
 
-- About
-- Getting Started
-- Usage
-- Commands
-- Tips
-- [License](https://github.com/s1mpleTEK/epitech-folder/blob/master/LICENSE)
-- Autor
+- [About](https://github.com/s1mpleTEK/epitech-folder#about)
+- [Getting Started](https://github.com/s1mpleTEK/epitech-folder#getting-started)
+- [Usage](https://github.com/s1mpleTEK/epietch-folder#usage)
+- [Commands](https://github.com/s1mpleTEK/epitech-folder#commands)
+- [Tips](https://github.com/s1mpleTEK/epitech-folder#tips)
+- [License](https://github.com/s1mpleTEK/epitech-folder#license)
+- [Autor](https://github.com/s1mpleTEK/epitech-folder#autor)
 
 ## About
 
@@ -87,12 +87,14 @@ user:~/epitech-folder/$> ./reset.sh
 |-h --help  | Help for use reset.sh                                                       |
 
 ## Tips
+
 - `run.sh` works as well alone out of the epitech-folder.
-- You can upgrade the `epitech-folder` repository with `run.sh -u`
-:exclamation: If the file `run.sh` is outside the `epitech-folder` repository, the file `run.sh` who execute the command `-u` or `--upgrade` will not be updated and there will be a new version in the `epitech-folder` repository.
+- You can upgrade the `epitech-folder` repository with `run.sh -u` (:exclamation: if the file `run.sh` is outside the `epitech-folder` repository, the file `run.sh` who execute the command `-u` or `--upgrade` will not be updated and there will be a new version in the `epitech-folder` repository :exclamation:)
 
 ## License
+
 [MIT](https://github.com/s1mpleTEK/epitech-folder/blob/master/LICENSE)
+
 ## Author
 
 * **José Rodrigues**, *EPITECH 2024*

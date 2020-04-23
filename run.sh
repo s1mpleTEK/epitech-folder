@@ -22,6 +22,7 @@ EMAILG=`git config --global github.email`
 EMAILB=`git config --global blih.email`
 NAME=`git config --global blih.name`
 SRCPWD=`git config --global epitech-folder.pwd`
+PASSWORD=""
 GREPO=0
 BREPO=0
 GCLONE=0
@@ -135,6 +136,83 @@ function upgrade()
 ##################################################
 
 ####################TIER G########################
+
+function github_add_user()
+{
+    if [ $DEBUG -eq 1 ]; then
+        echo "DEBUG: enter in ${FUNCNAME[0]} function"
+    fi
+    read -p "What is the Github username of your mate ? " ANWSER
+    local l_USERNAME=$ANWSER
+    curl -f -m 120 -u $USERNAME:$PASSWORD https://api.github.com/repos/$USERNAME/$REPOSITORY_NAME/collaborators{/$l_USERNAME} -X PUT >> .output
+    if [ $? -ne 0 ];then
+        rm .output
+        echo "error: the Github repository $REPOSITORY_NAME will not does give access to $l_USERNAME"
+        read -p "Try again ? (y/n) " ANWSER
+        case ANWSER in
+            y | Y)
+                curl -f -m 120 -u $USERNAME:$PASSWORD https://api.github.com/repos/$USERNAME/$REPOSITORY_NAME/collaborators{/$l_USERNAME} -X PUT >> .output
+                if [ $? -ne 0 ];then
+                    echo "error: the Github repository $REPOSITORY_NAME will not does give access to $l_USERNAME"
+                fi
+                rm .output
+                ;;
+            n | N | *)
+                ;;
+        esac
+        read -p "Do you want to add more mate ? (y/n) " ANWSER
+        case $ANWSER in
+            y | Y)
+                github_add_user
+                ;;
+            n | N | *)
+                ;;
+        esac
+    else
+        rm .output
+        echo "The Github repository $REPOSITORY_NAME has gived access to $l_USERNAME"
+        read -p "Do you want to add more mate ? (y/n) " ANWSER
+        case $ANWSER in
+            y | Y)
+                github_add_user
+                ;;
+            n | N | *)
+                ;;
+        esac
+    fi
+    return 0
+}
+
+function github_more_user()
+{
+    if [ $DEBUG -eq 1 ]; then
+        echo "DEBUG: enter in ${FUNCNAME[0]} function"
+    fi
+    read -p "Do you want add more people on your own Github repository ? (y/n) " ANWSER
+    local l_ANWSER=$ANWSER
+    case $l_ANWSER in
+        y | Y)
+            github_add_user
+            if [ $? -ne 0 ];then
+                if [ $DEBUG -eq 1 ]; then
+                    echo "DEBUG: return ${FUNCNAME[0]} function: 1"
+                fi
+                return 1
+            fi
+            ;;
+        n | N | *)
+            if [ $DEBUG -eq 1 ]; then
+                echo "DEBUG: return ${FUNCNAME[0]} function: 1"
+            fi
+            return 1
+            ;;
+    esac
+    if [ $DEBUG -eq 1 ]; then
+        echo "DEBUG: return ${FUNCNAME[0]} function: 0"
+    fi
+    return 0
+}
+
 function github_create_repository()
 {
     if [ $DEBUG -eq 1 ]; then
@@ -142,7 +220,7 @@ function github_create_repository()
     fi
     echo "Creates Github repository '$REPOSITORY_NAME' ..."
     if [ $GCLONE -eq 1 ]; then
-        curl -f -m 120 -u $USERNAME https://api.github.com/user/repos -d '{"name":"'$REPOSITORY_NAME'"}' >> .output
+        curl -f -m 120 -u $USERNAME:$PASSWORD https://api.github.com/user/repos -d '{"name":"'$REPOSITORY_NAME'"}' >> .output
         if [ $? -ne 0 ];then
             rm .output
             echo "error: the repository $REPOSITORY_NAME is not created"
@@ -154,7 +232,7 @@ function github_create_repository()
         rm .output
         echo "The Github repository $REPOSITORY_NAME has been created"
     elif [ $GCLONE -eq 0 ]; then
-        curl -f -m 120 -u $USERNAME https://api.github.com/user/repos -d '{"name":"'$REPOSITORY_NAME'","auto_init":true}' >> .output
+        curl -f -m 120 -u $USERNAME:$PASSWORD https://api.github.com/user/repos -d '{"name":"'$REPOSITORY_NAME'","auto_init":true}' >> .output
         if [ $? -ne 0 ];then
             rm .output
             echo "error: the repository $REPOSITORY_NAME is not created"
@@ -174,7 +252,7 @@ function github_create_repository()
     case $l_ANWSER in
         y | Y)
             echo "Puts '$REPOSITORY_NAME' repository in private ..."
-            curl -f -m 120 -u $USERNAME https://api.github.com/repos/$USERNAME/$REPOSITORY_NAME -d '{"private":"'true'"}' >> .output
+            curl -f -m 120 -u $USERNAME:$PASSWORD https://api.github.com/repos/$USERNAME/$REPOSITORY_NAME -d '{"private":"'true'"}' >> .output
             if [ $? -ne 0 ];then
                 echo "error: the repository $REPOSITORY_NAME will not be private"
             else
@@ -193,7 +271,7 @@ function github_create_repository()
     case $l_ANWSER in
         y | Y)
             echo "Sets access at ramassage-tls in '$REPOSITORY_NAME' repository ..."
-            curl -f -m 120 -u $USERNAME https://api.github.com/repos/$USERNAME/$REPOSITORY_NAME/collaborators{/ramassage-tls} -X PUT >> .output
+            curl -f -m 120 -u $USERNAME:$PASSWORD https://api.github.com/repos/$USERNAME/$REPOSITORY_NAME/collaborators{/ramassage-tls} -X PUT >> .output
             if [ $? -ne 0 ];then
                 echo "error: the Github repository $REPOSITORY_NAME will not does give access to ramassage-tls"
             else
@@ -205,6 +283,10 @@ function github_create_repository()
             echo "info: the Github repository $REPOSITORY_NAME will not does give access to ramassage-tls"
             ;;
     esac
+    github_more_user
+    if [ $? -ne 0 ];then
+        echo "info: "
+    fi
     if [ $GCLONE -eq 1 ]; then
         echo "Clones Github repository $REPOSITORY_NAME ..."
         git clone https://github.com/$USERNAME/$REPOSITORY_NAME.git
@@ -296,8 +378,23 @@ function github_user()
                 fi
             fi
             echo "Your username on Github: $USERNAME"
+            read -s -p "What is your Github password ? " ANWSER
+            echo ""
+            local l_PASSWORD=$ANWSER
+            read -p "Are you sure ? (y/n) " ANWSER
+            case $ANWSER in
+                y | Y)
+                    PASSWORD=$l_PASSWORD
+                    ;;
+                n | N | *)
+                    echo "info: last chance before restart the program"
+                    read -s -p "What is your Github password ? " ANWSER
+                    echo ""
+                    PASSWORD=$ANWSER
+                    ;;
+            esac
             if [[ $EMAILG == "" ]]; then
-                curl -f -u $USERNAME https://api.github.com/users/$USERNAME >> .id_output
+                curl -f -u $USERNAME:$PASSWORD https://api.github.com/users/$USERNAME >> .id_output
                 if [ $? -ne 0 ];then
                     rm .id_output
                     echo "error: github.email not found"
@@ -553,7 +650,7 @@ function server_important_check()
         echo "DEBUG: enter in ${FUNCNAME[0]} function"
     fi
     echo "Please wait ..."
-    ping -w 3 api.github.com &> //dev/null
+    ping -c 3 api.github.com &> //dev/null
     if [ $? -ne 0 ]; then
         echo "error: https://api.github.com are down or you are not connected to a wifi network or you have a bad wifi network"
         API=0
@@ -565,7 +662,7 @@ function server_important_check()
     fi
     
     echo "Please wait ..."
-    ping -w 3 github.com &> //dev/null
+    ping -c 3 github.com &> //dev/null
     if [ $? -ne 0 ]; then
         echo "error: https://github.com is down or you are not connected to a wifi network or you have a bad wifi network"
         GITHUB=0
@@ -576,7 +673,7 @@ function server_important_check()
         fi
     fi
     echo "Please wait ..."
-    ping -w 3 blih.epitech.eu &> //dev/null
+    ping -c 3 blih.epitech.eu &> //dev/null
     if [ $? -ne 0 ]; then
         echo "error: https://blih.epitech.eu is down or you are not connected to a wifi network or you have a bad wifi network"
         BLIH=0

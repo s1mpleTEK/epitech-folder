@@ -89,8 +89,7 @@ user:~/epitech-folder/$> ./reset.sh
 ## Tips
 
 - `run.sh` works as well alone out of the epitech-folder.
-- You can upgrade the `epitech-folder` repository with `run.sh -u`
-:exclamation: If the file `run.sh` is outside the `epitech-folder` repository, the file `run.sh` who execute the command `-u` or `--upgrade` will not be updated and there will be a new version in the `epitech-folder` repository.
+- You can upgrade the `epitech-folder` repository with `run.sh -u` (:exclamation: if the file `run.sh` is outside the `epitech-folder` repository, the file `run.sh` who execute the command `-u` or `--upgrade` will not be updated and there will be a new version in the `epitech-folder` repository :exclamation:)
 
 ## License
 

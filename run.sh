@@ -136,7 +136,6 @@ function upgrade()
 ##################################################
 
 ####################TIER G########################
-
 function github_add_user()
 {
     if [ $DEBUG -eq 1 ]; then
@@ -149,18 +148,6 @@ function github_add_user()
         rm .output
         echo "error: the Github repository $REPOSITORY_NAME will not does give access to $l_USERNAME"
         read -p "Try again ? (y/n) " ANWSER
-        case ANWSER in
-            y | Y)
-                curl -f -m 120 -u $USERNAME:$PASSWORD https://api.github.com/repos/$USERNAME/$REPOSITORY_NAME/collaborators{/$l_USERNAME} -X PUT >> .output
-                if [ $? -ne 0 ];then
-                    echo "error: the Github repository $REPOSITORY_NAME will not does give access to $l_USERNAME"
-                fi
-                rm .output
-                ;;
-            n | N | *)
-                ;;
-        esac
-        read -p "Do you want to add more mate ? (y/n) " ANWSER
         case $ANWSER in
             y | Y)
                 github_add_user
@@ -179,6 +166,9 @@ function github_add_user()
             n | N | *)
                 ;;
         esac
+    fi
+    if [ $DEBUG -eq 1 ]; then
+        echo "DEBUG: return ${FUNCNAME[0]} function: 0"
     fi
     return 0
 }
@@ -301,7 +291,7 @@ function github_create_repository()
         echo "The repository $REPOSITORY_NAME has been cloned here: `pwd $REPOSITORY/`"
     fi
     if [ $DEBUG -eq 1 ]; then
-        echo "DEBUG: return ${FUNCNAME[0]} function"
+        echo "DEBUG: return ${FUNCNAME[0]} function: 0"
     fi
     return 0
 }
@@ -468,6 +458,71 @@ function github_user()
 ##################################################
 
 ####################TIER B########################
+function blih_add_user()
+{
+    if [ $DEBUG -eq 1 ]; then
+        echo "DEBUG: enter in ${FUNCNAME[0]} function"
+    fi
+    read -p "What is the Epitech email of your mate ? " ANWSER
+    local l_EMAIL=$ANWSER
+    blih -u $EMAILB repository setacl $REPOSITORY_NAME $l_EMAIL rw
+    if [ $? -ne 0 ];then
+        echo "error: the Blih repository $REPOSITORY_NAME will not does give access to $l_EMAIL"
+        read -p "Try again ? (y/n) " ANWSER
+        case $ANWSER in
+            y | Y)
+                blih_add_user
+                ;;
+            n | N | *)
+                ;;
+        esac
+    else
+        echo "The Blih repository $REPOSITORY_NAME has gived access to $l_EMAIL"
+        read -p "Do you want to add more mate ? (y/n) " ANWSER
+        case $ANWSER in
+            y | Y)
+                blih_add_user
+                ;;
+            n | N | *)
+                ;;
+        esac
+    fi
+    if [ $DEBUG -eq 1 ]; then
+        echo "DEBUG: return ${FUNCNAME[0]} function: 0"
+    fi
+    return 0
+}
+
+function blih_more_user()
+{
+    if [ $DEBUG -eq 1 ]; then
+        echo "DEBUG: enter in ${FUNCNAME[0]} function"
+    fi
+    read -p "Do you want add more people on your own Blih repository ? (y/n) " ANWSER
+    local l_ANWSER=$ANWSER
+    case $l_ANWSER in
+        y | Y)
+            blih_add_user
+            if [ $? -ne 0 ];then
+                if [ $DEBUG -eq 1 ]; then
+                    echo "DEBUG: return ${FUNCNAME[0]} function: 1"
+                fi
+                return 1
+            fi
+            ;;
+        n | N | *)
+            if [ $DEBUG -eq 1 ]; then
+                echo "DEBUG: return ${FUNCNAME[0]} function: 1"
+            fi
+            return 1
+            ;;
+    esac
+    if [ $DEBUG -eq 1 ]; then
+        echo "DEBUG: return ${FUNCNAME[0]} function: 0"
+    fi
+    return 0
+}
+
 function blih_create_repository()
 {
     if [ $DEBUG -eq 1 ]; then
@@ -493,7 +548,7 @@ function blih_create_repository()
         EMAILB=`git config --global blih.email`
     fi
     echo "Your Epitech mail adress: $EMAILB"
-    echo "Creating $REPOSITORY_NAME with blih ..."
+    echo "Creating the Blih repository $REPOSITORY_NAME ..."
     blih -u $EMAILB repository create $REPOSITORY_NAME 
     if [ $? -ne 0 ]; then
         echo "error: repository $REPOSITORY_NAME could not create"
@@ -502,17 +557,30 @@ function blih_create_repository()
         fi
         exit 1
     fi
-    echo "Set access at ramassage-tek ..."
-    blih -u $EMAILB repository setacl $REPOSITORY_NAME ramassage-tek r
-    if [ $? -ne 0 ]; then
-        echo "error: you can not give rights in repository $REPOSITORY_NAME "
-        if [ $DEBUG -eq 1 ]; then
-            echo "DEBUG: exit ${FUNCNAME[0]} function: 1"
-        fi
-        exit 1
-    fi
+    read -p "Do you want to set access to ramassage-tek ? (y/n) " ANWSER
+    local l_ANWSER=$ANWSER
     if [ $DEBUG -eq 1 ]; then
-        echo "DEBUG: return ${FUNCNAME[0]} function"
+        echo "DEBUG: anwser: $l_ANWSER"
+    fi
+    case $l_ANWSER in
+        y | Y)
+            echo "Sets access at ramassage-tek in '$REPOSITORY_NAME' repository ..."
+            blih -u $EMAILB repository setacl $REPOSITORY_NAME ramassage-tek r
+            if [ $? -ne 0 ]; then
+                echo "error: you can not give rights in repository $REPOSITORY_NAME "
+                if [ $DEBUG -eq 1 ]; then
+                    echo "DEBUG: exit ${FUNCNAME[0]} function: 1"
+                fi
+                exit 1
+            fi
+            ;;
+        n | N | *)
+            echo "info: the Blih repository $REPOSITORY_NAME will not does give access to ramassage-tek"
+            ;;
+    esac
+    blih_more_user
+    if [ $DEBUG -eq 1 ]; then
+        echo "DEBUG: return ${FUNCNAME[0]} function: 0"
     fi
     return 0
 }
@@ -883,11 +951,11 @@ function main()
         init_repository_github
     elif [[ $GREPO -eq 1 && $GCLONE -eq 0 ]]; then
         if [ $DEBUG -eq 1 ]; then
-            echo "DEBUG: init nothing because the repository has not been cloned"
+            echo "DEBUG: init with a README only on Github"
         fi
     elif [[ $BREPO -eq 1 && $BCLONE -eq 0 ]]; then
         if [ $DEBUG -eq 1 ]; then
-            echo "DEBUG: init nothing because the repository has not been cloned"
+            echo "DEBUG: init nothing because the Blih repository has not been cloned"
         fi
     else
         echo "info: none repository will not be created"

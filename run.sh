@@ -825,7 +825,7 @@ function main()
         if [ $DEBUG -eq 1 ]; then
             echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m return \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 0"
         fi
-        echo "PROGRAM FINISH"
+        echo -e "\e[41m\e[1mPROGRAM FINISH\e[21m\e[49m"
         return 0
     elif [[ $UPGRADE -eq 1 && $HELP -eq 1 ]]; then
         upgrade
@@ -835,7 +835,7 @@ function main()
         if [ $DEBUG -eq 1 ]; then
             echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m return \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 0"
         fi
-        echo "PROGRAM FINISH"
+        echo -e "\e[41m\e[1mPROGRAM FINISH\e[21m\e[49m"
         return 0
     fi
     server_important_check

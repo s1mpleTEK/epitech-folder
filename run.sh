@@ -15,6 +15,7 @@ HELP=0
 GITHUB=0
 BLIH=0
 API=0
+NETROUTER=0
 cmd=('-h' '--help' '-d' '--debug' '-dh' '-hd' '--help--debug' '--debug--help' '-u' '--upgrade')
 REPOSITORY_NAME=""
 USERNAME=`git config --global github.user`
@@ -329,6 +330,27 @@ function github_repository()
     return 0
 }
 
+function github_password()
+{
+    if [ $DEBUG -eq 1 ]; then
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m enter in \e[1m${FUNCNAME[0]}\e[21m function\e[39m"
+    fi
+    read -s -p "What is your Github password ? " ANWSER
+    echo ""
+    local l_PASSWORD=$ANWSER
+    echo -e "Please wait \e[5m...\e[0m"
+    curl -f -u $USERNAME:$l_PASSWORD https://api.github.com/users/$USERNAME &> //dev/null
+    if [[ $? -ne 0 || $l_PASSWORD == "" ]];then
+        echo -e "\e[1m\e[91merror:\e[39m\e[21m wrong password"
+        github_password
+    fi
+    PASSWORD=$l_PASSWORD
+    if [ $DEBUG -eq 1 ]; then
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m return \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 0"
+    fi
+    return 0
+}
+
 function github_user()
 {
     if [ $DEBUG -eq 1 ]; then
@@ -371,21 +393,7 @@ function github_user()
                 fi
             fi
             echo "Your username on Github: $USERNAME"
-            read -s -p "What is your Github password ? " ANWSER
-            echo ""
-            local l_PASSWORD=$ANWSER
-            read -p "Are you sure ? (y/n) " ANWSER
-            case $ANWSER in
-                y | Y)
-                    PASSWORD=$l_PASSWORD
-                    ;;
-                n | N | *)
-                    echo -e "\e[1m\e[34minfo:\e[39m\e[21m last chance before restart the program"
-                    read -s -p "What is your Github password ? " ANWSER
-                    echo ""
-                    PASSWORD=$ANWSER
-                    ;;
-            esac
+            github_password
             if [[ $EMAILG == "" ]]; then
                 curl -f -u $USERNAME:$PASSWORD https://api.github.com/users/$USERNAME >> .id_output
                 if [ $? -ne 0 ];then
@@ -715,11 +723,23 @@ function init_repository()
 ##################################################
 
 ####################TIER S########################
+function server_network_router()
+{
+    if [ $DEBUG -eq 1 ]; then
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m enter in \e[1m${FUNCNAME[0]}\e[21m function\e[39m"
+    fi
+    if [ $DEBUG -eq 1 ]; then
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m return \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 0"
+    fi
+    return 0
+}
+
 function server_important_check()
 {
     if [ $DEBUG -eq 1 ]; then
         echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m enter in \e[1m${FUNCNAME[0]}\e[21m function\e[39m"
     fi
+    server_network_router
     echo -e "Please wait \e[5m...\e[0m"
     ping -c 3 api.github.com &> //dev/null
     if [ $? -ne 0 ]; then

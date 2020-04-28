@@ -62,7 +62,7 @@ done
 function help()
 {
     if [ $DEBUG -eq 1 ]; then
-        echo DEBUG: "enter in ${FUNCNAME[0]} function"
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m enter in \e[1m${FUNCNAME[0]}\e[21m function\e[39m"
     fi
     echo "USAGE"
     echo "    ./run.sh"
@@ -73,7 +73,7 @@ function help()
     echo -e "\nDESCRIPTION\n"
     echo "    This is a shell script for create your own repository, Github and Blih in the same time."
     if [ $DEBUG -eq 1 ]; then
-        echo "DEBUG: return ${FUNCNAME[0]} function: 0"
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m return \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 0"
     fi
 
     return 0
@@ -82,12 +82,12 @@ function help()
 function error()
 {
     if [ $DEBUG -eq 1 ]; then
-        echo "DEBUG: enter in ${FUNCNAME[0]} function"
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m enter in \e[1m${FUNCNAME[0]}\e[21m function\e[39m"
     fi
     if [ $# -gt 2 ]; then
-        echo "error: too many arguments: $#"
+        echo -e "\e[1m\e[91merror:\e[39m\e[21m too many arguments: $#"
         if [ $DEBUG -eq 1 ]; then
-        echo "DEBUG: exit ${FUNCNAME[0]} function: 1"
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m exit \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 1"
         fi
         exit 1
     fi
@@ -99,17 +99,17 @@ function error()
             ${cmd[2]} | ${cmd[3]} | ${cmd[8]} | ${cmd[9]})
                 ;;
             *)
-                echo "error: $i: command not found"
-                echo "info: run with -h or --help"
+                echo -e "\e[1m\e[91merror:\e[39m\e[21m $i: command not found"
+                echo -e "\e[1m\e[34minfo:\e[39m\e[21m run with -h or --help"
                 if [ $DEBUG -eq 1 ]; then
-                echo "DEBUG: exit ${FUNCNAME[0]} function: 1"
+                echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m exit \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 1"
                 fi
                 exit 1
                 ;;
         esac
     done
     if [ $DEBUG -eq 1 ]; then
-        echo "DEBUG: return ${FUNCNAME[0]} function: 0"
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m return \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 0"
     fi
     return 0
 }
@@ -117,19 +117,19 @@ function error()
 function upgrade()
 {
     if [ $DEBUG -eq 1 ]; then
-        echo "DEBUG: enter in ${FUNCNAME[0]} function"
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m enter in \e[1m${FUNCNAME[0]}\e[21m function\e[39m"
     fi
-    echo "Please wait ..."
+    echo -e "Please wait \e[5m...\e[0m"
     git -C $SRCPWD pull
     if [ $? -ne 0 ];then
         if [ $DEBUG -eq 1 ]; then
-            echo "DEBUG: exit ${FUNCNAME[0]} function: 1"
+            echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m exit \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 1"
         fi
         exit 1
     fi
     echo "Your epitech-folder repository is update here: $SRCPWD"
     if [ $DEBUG -eq 1 ]; then
-        echo "DEBUG: return ${FUNCNAME[0]} function: 0"
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m return \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 0"
     fi
     return 0
 }
@@ -139,14 +139,14 @@ function upgrade()
 function github_add_user()
 {
     if [ $DEBUG -eq 1 ]; then
-        echo "DEBUG: enter in ${FUNCNAME[0]} function"
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m enter in \e[1m${FUNCNAME[0]}\e[21m function\e[39m"
     fi
     read -p "What is the Github username of your mate ? " ANWSER
     local l_USERNAME=$ANWSER
     curl -f -m 120 -u $USERNAME:$PASSWORD https://api.github.com/repos/$USERNAME/$REPOSITORY_NAME/collaborators{/$l_USERNAME} -X PUT >> .output
     if [ $? -ne 0 ];then
         rm .output
-        echo "error: the Github repository $REPOSITORY_NAME will not does give access to $l_USERNAME"
+        echo -e "\e[1m\e[91merror:\e[39m\e[21m the Github repository $REPOSITORY_NAME will not does give access to $l_USERNAME"
         read -p "Try again ? (y/n) " ANWSER
         case $ANWSER in
             y | Y)
@@ -168,7 +168,7 @@ function github_add_user()
         esac
     fi
     if [ $DEBUG -eq 1 ]; then
-        echo "DEBUG: return ${FUNCNAME[0]} function: 0"
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m return \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 0"
     fi
     return 0
 }
@@ -176,7 +176,7 @@ function github_add_user()
 function github_more_user()
 {
     if [ $DEBUG -eq 1 ]; then
-        echo "DEBUG: enter in ${FUNCNAME[0]} function"
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m enter in \e[1m${FUNCNAME[0]}\e[21m function\e[39m"
     fi
     read -p "Do you want add more people on your own Github repository ? (y/n) " ANWSER
     local l_ANWSER=$ANWSER
@@ -185,20 +185,20 @@ function github_more_user()
             github_add_user
             if [ $? -ne 0 ];then
                 if [ $DEBUG -eq 1 ]; then
-                    echo "DEBUG: return ${FUNCNAME[0]} function: 1"
+                    echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m return \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 1"
                 fi
                 return 1
             fi
             ;;
         n | N | *)
             if [ $DEBUG -eq 1 ]; then
-                echo "DEBUG: return ${FUNCNAME[0]} function: 1"
+                echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m return \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 1"
             fi
             return 1
             ;;
     esac
     if [ $DEBUG -eq 1 ]; then
-        echo "DEBUG: return ${FUNCNAME[0]} function: 0"
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m return \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 0"
     fi
     return 0
 }
@@ -206,16 +206,16 @@ function github_more_user()
 function github_create_repository()
 {
     if [ $DEBUG -eq 1 ]; then
-        echo "DEBUG: enter in ${FUNCNAME[0]} function"
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m enter in \e[1m${FUNCNAME[0]}\e[21m function\e[39m"
     fi
     echo "Creates Github repository '$REPOSITORY_NAME' ..."
     if [ $GCLONE -eq 1 ]; then
         curl -f -m 120 -u $USERNAME:$PASSWORD https://api.github.com/user/repos -d '{"name":"'$REPOSITORY_NAME'"}' >> .output
         if [ $? -ne 0 ];then
             rm .output
-            echo "error: the repository $REPOSITORY_NAME is not created"
+            echo -e "\e[1m\e[91merror:\e[39m\e[21m the repository $REPOSITORY_NAME is not created"
             if [ $DEBUG -eq 1 ]; then
-                echo "DEBUG: exit ${FUNCNAME[0]} function: 1"
+                echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m exit \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 1"
             fi
             exit 1
         fi
@@ -225,9 +225,9 @@ function github_create_repository()
         curl -f -m 120 -u $USERNAME:$PASSWORD https://api.github.com/user/repos -d '{"name":"'$REPOSITORY_NAME'","auto_init":true}' >> .output
         if [ $? -ne 0 ];then
             rm .output
-            echo "error: the repository $REPOSITORY_NAME is not created"
+            echo -e "\e[1m\e[91merror:\e[39m\e[21m the repository $REPOSITORY_NAME is not created"
             if [ $DEBUG -eq 1 ]; then
-                echo "DEBUG: exit ${FUNCNAME[0]} function: 1"
+                echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m exit \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 1"
             fi
             exit 1
         fi
@@ -237,53 +237,56 @@ function github_create_repository()
     read -p "Do you want to set $REPOSITORY_NAME in private ? (y/n) " ANWSER
     local l_ANWSER=$ANWSER
     if [ $DEBUG -eq 1 ]; then
-        echo "DEBUG: anwser: $l_ANWSER"
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m anwser:\e[39m $l_ANWSER"
     fi
     case $l_ANWSER in
         y | Y)
             echo "Puts '$REPOSITORY_NAME' repository in private ..."
             curl -f -m 120 -u $USERNAME:$PASSWORD https://api.github.com/repos/$USERNAME/$REPOSITORY_NAME -d '{"private":"'true'"}' >> .output
             if [ $? -ne 0 ];then
-                echo "error: the repository $REPOSITORY_NAME will not be private"
+                echo -e "\e[1m\e[91merror:\e[39m\e[21m the repository $REPOSITORY_NAME will not be private"
             else
                 rm .output
                 echo "The Github repository $REPOSITORY_NAME has been set in private"
             fi
             ;;
         n | N | *)
-            echo "info: the repository $REPOSITORY_NAME will not be private"
+            echo -e "\e[1m\e[34minfo:\e[39m\e[21m the repository $REPOSITORY_NAME will not be private"
     esac
     read -p "Do you want to set access to ramassage-tls ? (y/n) " ANWSER
     local l_ANWSER=$ANWSER
     if [ $DEBUG -eq 1 ]; then
-        echo "DEBUG: anwser: $l_ANWSER"
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m anwser:\e[39m $l_ANWSER"
     fi
     case $l_ANWSER in
         y | Y)
             echo "Sets access at ramassage-tls in '$REPOSITORY_NAME' repository ..."
             curl -f -m 120 -u $USERNAME:$PASSWORD https://api.github.com/repos/$USERNAME/$REPOSITORY_NAME/collaborators{/ramassage-tls} -X PUT >> .output
             if [ $? -ne 0 ];then
-                echo "error: the Github repository $REPOSITORY_NAME will not does give access to ramassage-tls"
+                echo -e "\e[1m\e[91merror:\e[39m\e[21m the Github repository $REPOSITORY_NAME will not does give access to ramassage-tls"
             else
                 rm .output
                 echo "The Github repository $REPOSITORY_NAME has gived access to ramassage-tls"
             fi
             ;;
         n | N | *)
-            echo "info: the Github repository $REPOSITORY_NAME will not does give access to ramassage-tls"
+            echo -e "\e[1m\e[34minfo:\e[39m\e[21m the Github repository $REPOSITORY_NAME will not does give access to ramassage-tls"
             ;;
     esac
     github_more_user
     if [ $? -ne 0 ];then
-        echo "info: "
+        if [ $DEBUG -eq 1 ]; then
+            echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m return \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 1"
+        fi
+        return 1
     fi
     if [ $GCLONE -eq 1 ]; then
         echo "Clones Github repository $REPOSITORY_NAME ..."
         git clone https://github.com/$USERNAME/$REPOSITORY_NAME.git
         if [ $? -ne 0 ];then
-            echo "error: the repository $REPOSITORY_NAME will not be cloned"
+            echo -e "\e[1m\e[91merror:\e[39m\e[21m the repository $REPOSITORY_NAME will not be cloned"
             if [ $DEBUG -eq 1 ]; then
-                echo "DEBUG: exit ${FUNCNAME[0]} function: 1"
+                echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m exit \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 1"
             fi
             exit 1
         fi
@@ -291,7 +294,7 @@ function github_create_repository()
         echo "The repository $REPOSITORY_NAME has been cloned here: `pwd $REPOSITORY/`"
     fi
     if [ $DEBUG -eq 1 ]; then
-        echo "DEBUG: return ${FUNCNAME[0]} function: 0"
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m return \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 0"
     fi
     return 0
 }
@@ -299,29 +302,29 @@ function github_create_repository()
 function github_repository()
 {
     if [ $DEBUG -eq 1 ]; then
-        echo "DEBUG: enter in ${FUNCNAME[0]} function"
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m enter in \e[1m${FUNCNAME[0]}\e[21m function\e[39m"
     fi
     read -p "What is the name of your repository ? " ANWSER
     REPOSITORY_NAME=$ANWSER
     if [ $DEBUG -eq 1 ]; then
-        echo "DEBUG: anwser: $REPOSITORY_NAME"
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m anwser:\e[39m $REPOSITORY_NAME"
     fi
     if [ $REPOSITORY_NAME == "" ]; then
         echo "syntax error: this name is not allowed"
         if [ $DEBUG -eq 1 ]; then
-            echo "DEBUG: exit ${FUNCNAME[0]} function: 1"
+            echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m exit \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 1"
         fi
         exit 1
     fi
     github_create_repository
     if [ $? -eq 1 ]; then
         if [ $DEBUG -eq 1 ]; then
-            echo "DEBUG: exit ${FUNCNAME[0]} function: 1"
+            echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m exit \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 1"
         fi
         exit 1
     fi
     if [ $DEBUG -eq 1 ]; then
-        echo "DEBUG: return ${FUNCNAME[0]} function: 0"
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m return \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 0"
     fi
     return 0
 }
@@ -329,28 +332,28 @@ function github_repository()
 function github_user()
 {
     if [ $DEBUG -eq 1 ]; then
-        echo "DEBUG: enter in ${FUNCNAME[0]} function"
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m enter in \e[1m${FUNCNAME[0]}\e[21m function\e[39m"
     fi
     read -p "Do you have a Github account ? (y/n) " ANWSER
     local l_ANWSER=$ANWSER
     if [ $DEBUG -eq 1 ]; then
-        echo "DEBUG: anwser: $l_ANWSER"
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m anwser:\e[39m $l_ANWSER"
     fi
     case $l_ANWSER in
         y | Y)
             if [[ $USERNAME == "" ]]; then
-                echo "error: github.user not found"
+                echo -e "\e[1m\e[91merror:\e[39m\e[21m github.user not found"
                 read -p "Do you want to set your github.user ? (y/n) " ANWSER
                 local l_ANWSER=$ANWSER
                 if [ $DEBUG -eq 1 ]; then
-                    echo "DEBUG: anwser: $l_ANWSER"
+                    echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m anwser:\e[39m $l_ANWSER"
                 fi
                 case $l_ANWSER in
                     y | Y)
                         read -p "What is it your Github username ? " ANWSER
                         local l_ANWSER=$ANWSER
                         if [ $DEBUG -eq 1 ]; then
-                            echo "DEBUG: anwser: $l_ANWSER"
+                            echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m anwser:\e[39m $l_ANWSER"
                         fi
                         git config --global github.user "$l_ANWSER"
                         USERNAME=`git config --global github.user`
@@ -359,10 +362,10 @@ function github_user()
                         ;;
                 esac
                 if [[ $USERNAME == "" ]]; then
-                    echo "error: github.user not found"
-                    echo "info: run 'git config --global github.user <username>'"
+                    echo -e "\e[1m\e[91merror:\e[39m\e[21m github.user not found"
+                    echo -e "\e[1m\e[34minfo:\e[39m\e[21m run 'git config --global github.user <username>'"
                     if [ $DEBUG -eq 1 ]; then
-                        echo "DEBUG: exit ${FUNCNAME[0]} function: 1"
+                        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m exit \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 1"
                     fi
                     exit 1
                 fi
@@ -377,7 +380,7 @@ function github_user()
                     PASSWORD=$l_PASSWORD
                     ;;
                 n | N | *)
-                    echo "info: last chance before restart the program"
+                    echo -e "\e[1m\e[34minfo:\e[39m\e[21m last chance before restart the program"
                     read -s -p "What is your Github password ? " ANWSER
                     echo ""
                     PASSWORD=$ANWSER
@@ -387,10 +390,10 @@ function github_user()
                 curl -f -u $USERNAME:$PASSWORD https://api.github.com/users/$USERNAME >> .id_output
                 if [ $? -ne 0 ];then
                     rm .id_output
-                    echo "error: github.email not found"
-                    echo "info: run 'git config --global github.email <<github user id>+<username>@users.noreply.github.com>'"
+                    echo -e "\e[1m\e[91merror:\e[39m\e[21m github.email not found"
+                    echo -e "\e[1m\e[34minfo:\e[39m\e[21m run 'git config --global github.email <<github user id>+<username>@users.noreply.github.com>'"
                     if [ $DEBUG -eq 1 ]; then
-                        echo "DEBUG: exit ${FUNCNAME[0]} function: 1"
+                        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m exit \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 1"
                     fi
                     exit 1
                 fi
@@ -411,7 +414,7 @@ function github_user()
             github_repository
             if [ $? -ne 0 ]; then
                 if [ $DEBUG -eq 1 ]; then
-                    echo "DEBUG: exit ${FUNCNAME[0]} function: 1"
+                    echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m exit \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 1"
                 fi
                 exit 1
             fi
@@ -419,26 +422,26 @@ function github_user()
         n | N)
             xdg-open 'https://github.com/join?source=header-home' &> //dev/null
             if [ $? -ne 0 ]; then
-                echo "error: xdg-open: command not found"
+                echo -e "\e[1m\e[91merror:\e[39m\e[21m xdg-open: command not found"
                 if [ $DEBUG -eq 1 ]; then
-                    echo "DEBUG: exit ${FUNCNAME[0]} function: 1"
+                    echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m exit \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 1"
                 fi
                 exit 1
             fi
             if [ $DEBUG -eq 1 ]; then
-                echo "DEBUG: exit ${FUNCNAME[0]} function: 1"
+                echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m exit \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 1"
             fi
             exit 1
             ;;
         *)
             echo "syntax error: not correct anwser"
             if [ $DEBUG -eq 1 ]; then
-                echo "DEBUG: reload ${FUNCNAME[0]} function"
+                echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m reload \e[1m${FUNCNAME[0]}\e[21m function\e[39m"
             fi
             github_user
             if [ $? -ne 0 ]; then
                 if [ $DEBUG -eq 1 ]; then
-                    echo "DEBUG: exit ${FUNCNAME[0]} function: 1"
+                    echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m exit \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 1"
                 fi
                 exit 1
             fi
@@ -446,12 +449,12 @@ function github_user()
     esac
     if [ $? -ne 0 ]; then
         if [ $DEBUG -eq 1 ]; then
-            echo "DEBUG: exit ${FUNCNAME[0]} function: 1"
+            echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m exit \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 1"
         fi
         exit 1
     fi
     if [ $DEBUG -eq 1 ]; then
-        echo "DEBUG: return ${FUNCNAME[0]} function: 0"
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m return \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 0"
     fi
     return 0
 }
@@ -461,13 +464,13 @@ function github_user()
 function blih_add_user()
 {
     if [ $DEBUG -eq 1 ]; then
-        echo "DEBUG: enter in ${FUNCNAME[0]} function"
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m enter in \e[1m${FUNCNAME[0]}\e[21m function\e[39m"
     fi
     read -p "What is the Epitech email of your mate ? " ANWSER
     local l_EMAIL=$ANWSER
     blih -u $EMAILB repository setacl $REPOSITORY_NAME $l_EMAIL rw
     if [ $? -ne 0 ];then
-        echo "error: the Blih repository $REPOSITORY_NAME will not does give access to $l_EMAIL"
+        echo -e "\e[1m\e[91merror:\e[39m\e[21m the Blih repository $REPOSITORY_NAME will not does give access to $l_EMAIL"
         read -p "Try again ? (y/n) " ANWSER
         case $ANWSER in
             y | Y)
@@ -488,7 +491,7 @@ function blih_add_user()
         esac
     fi
     if [ $DEBUG -eq 1 ]; then
-        echo "DEBUG: return ${FUNCNAME[0]} function: 0"
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m return \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 0"
     fi
     return 0
 }
@@ -496,7 +499,7 @@ function blih_add_user()
 function blih_more_user()
 {
     if [ $DEBUG -eq 1 ]; then
-        echo "DEBUG: enter in ${FUNCNAME[0]} function"
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m enter in \e[1m${FUNCNAME[0]}\e[21m function\e[39m"
     fi
     read -p "Do you want add more people on your own Blih repository ? (y/n) " ANWSER
     local l_ANWSER=$ANWSER
@@ -505,20 +508,20 @@ function blih_more_user()
             blih_add_user
             if [ $? -ne 0 ];then
                 if [ $DEBUG -eq 1 ]; then
-                    echo "DEBUG: return ${FUNCNAME[0]} function: 1"
+                    echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m return \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 1"
                 fi
                 return 1
             fi
             ;;
         n | N | *)
             if [ $DEBUG -eq 1 ]; then
-                echo "DEBUG: return ${FUNCNAME[0]} function: 1"
+                echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m return \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 1"
             fi
             return 1
             ;;
     esac
     if [ $DEBUG -eq 1 ]; then
-        echo "DEBUG: return ${FUNCNAME[0]} function: 0"
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m return \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 0"
     fi
     return 0
 }
@@ -526,18 +529,18 @@ function blih_more_user()
 function blih_create_repository()
 {
     if [ $DEBUG -eq 1 ]; then
-        echo "DEBUG: enter in ${FUNCNAME[0]} function"
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m enter in \e[1m${FUNCNAME[0]}\e[21m function\e[39m"
     fi
     if [[ $GREPO -eq 0 && $BCLONE -eq 1 || $B_PRE_REPO -eq 1 && $BCLONE -eq 0 ]]; then
         read -p "What is the name of your repository ? " ANWSER
         REPOSITORY_NAME=$ANWSER
         if [ $DEBUG -eq 1 ]; then
-            echo "DEBUG: anwser: $REPOSITORY_NAME"
+            echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m anwser:\e[39m $REPOSITORY_NAME"
         fi
         if [ $REPOSITORY_NAME == "" ]; then
             echo "syntax error: this name is not allowed"
             if [ $DEBUG -eq 1 ]; then
-                echo "DEBUG: exit ${FUNCNAME[0]} function: 1"
+                echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m exit \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 1"
             fi
             exit 1
         fi
@@ -551,36 +554,36 @@ function blih_create_repository()
     echo "Creating the Blih repository $REPOSITORY_NAME ..."
     blih -u $EMAILB repository create $REPOSITORY_NAME 
     if [ $? -ne 0 ]; then
-        echo "error: repository $REPOSITORY_NAME could not create"
+        echo -e "\e[1m\e[91merror:\e[39m\e[21m repository $REPOSITORY_NAME could not create"
         if [ $DEBUG -eq 1 ]; then
-            echo "DEBUG: exit ${FUNCNAME[0]} function: 1"
+            echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m exit \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 1"
         fi
         exit 1
     fi
     read -p "Do you want to set access to ramassage-tek ? (y/n) " ANWSER
     local l_ANWSER=$ANWSER
     if [ $DEBUG -eq 1 ]; then
-        echo "DEBUG: anwser: $l_ANWSER"
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m anwser:\e[39m $l_ANWSER"
     fi
     case $l_ANWSER in
         y | Y)
             echo "Sets access at ramassage-tek in '$REPOSITORY_NAME' repository ..."
             blih -u $EMAILB repository setacl $REPOSITORY_NAME ramassage-tek r
             if [ $? -ne 0 ]; then
-                echo "error: you can not give rights in repository $REPOSITORY_NAME "
+                echo -e "\e[1m\e[91merror:\e[39m\e[21m you can not give rights in repository $REPOSITORY_NAME "
                 if [ $DEBUG -eq 1 ]; then
-                    echo "DEBUG: exit ${FUNCNAME[0]} function: 1"
+                    echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m exit \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 1"
                 fi
                 exit 1
             fi
             ;;
         n | N | *)
-            echo "info: the Blih repository $REPOSITORY_NAME will not does give access to ramassage-tek"
+            echo -e "\e[1m\e[34minfo:\e[39m\e[21m the Blih repository $REPOSITORY_NAME will not does give access to ramassage-tek"
             ;;
     esac
     blih_more_user
     if [ $DEBUG -eq 1 ]; then
-        echo "DEBUG: return ${FUNCNAME[0]} function: 0"
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m return \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 0"
     fi
     return 0
 }
@@ -590,7 +593,7 @@ function blih_create_repository()
 function init_files_repository_blih()
 {
     if [ $DEBUG -eq 1 ]; then
-        echo "DEBUG: enter in ${FUNCNAME[0]} function"
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m enter in \e[1m${FUNCNAME[0]}\e[21m function\e[39m"
     fi
     echo "Creating README ..."
     touch $REPOSITORY_NAME/README.md
@@ -600,7 +603,7 @@ function init_files_repository_blih()
     echo ".vscode" > $REPOSITORY_NAME/.gitignore
     echo ".gitignore is created"
     if [ $DEBUG -eq 1 ]; then
-        echo "DEBUG: return ${FUNCNAME[0]} function: 0"
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m return \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 0"
     fi
     return 0
 }
@@ -608,14 +611,14 @@ function init_files_repository_blih()
 function init_repository_blih()
 {
     if [ $DEBUG -eq 1 ]; then
-        echo "DEBUG: enter in ${FUNCNAME[0]} function"
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m enter in \e[1m${FUNCNAME[0]}\e[21m function\e[39m"
     fi
     echo "Clones Blih repository ..."
     git clone git@git.epitech.eu:$EMAILB/$REPOSITORY_NAME
     if [ $? -ne 0 ];then
-        echo "error: the repository $REPOSITORY_NAME has not been cloned"
+        echo -e "\e[1m\e[91merror:\e[39m\e[21m the repository $REPOSITORY_NAME has not been cloned"
         if [ $DEBUG -eq 1 ]; then
-            echo "DEBUG: exit ${FUNCNAME[0]} function: 1"
+            echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m exit \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 1"
         fi
         exit 1
     fi
@@ -627,7 +630,7 @@ function init_repository_blih()
     git -C $REPOSITORY_NAME/ commit -m "[INIT REPOSITORY]"
     git -C $REPOSITORY_NAME/ push origin master
     if [ $DEBUG -eq 1 ]; then
-        echo "DEBUG: return ${FUNCNAME[0]} function: 0"
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m return \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 0"
     fi
     return 0
 }
@@ -637,7 +640,7 @@ function init_repository_blih()
 function init_files_repository_github()
 {
     if [ $DEBUG -eq 1 ]; then
-        echo "DEBUG: enter in ${FUNCNAME[0]} function"
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m enter in \e[1m${FUNCNAME[0]}\e[21m function\e[39m"
     fi
     echo "Creating README ..."
     touch $REPOSITORY_NAME/README.md
@@ -647,7 +650,7 @@ function init_files_repository_github()
     echo ".vscode" > $REPOSITORY_NAME/.gitignore
     echo ".gitignore is created"
     if [ $DEBUG -eq 1 ]; then
-        echo "DEBUG: return ${FUNCNAME[0]} function: 0"
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m return \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 0"
     fi
     return 0
 }
@@ -655,7 +658,7 @@ function init_files_repository_github()
 function init_repository_github()
 {
     if [ $DEBUG -eq 1 ]; then
-        echo "DEBUG: enter in ${FUNCNAME[0]} function"
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m enter in \e[1m${FUNCNAME[0]}\e[21m function\e[39m"
     fi
     git -C $REPOSITORY_NAME/ init .
     init_files_repository_github
@@ -665,7 +668,7 @@ function init_repository_github()
     git -C $REPOSITORY_NAME/ commit -m "[INIT REPOSITORY]"
     git -C $REPOSITORY_NAME/ push origin master
     if [ $DEBUG -eq 1 ]; then
-        echo "DEBUG: return ${FUNCNAME[0]} function: 0"
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m return \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 0"
     fi
     return 0
 }
@@ -675,7 +678,7 @@ function init_repository_github()
 function init_files_repository()
 {
     if [ $DEBUG -eq 1 ]; then
-        echo "DEBUG: enter in ${FUNCNAME[0]} function"
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m enter in \e[1m${FUNCNAME[0]}\e[21m function\e[39m"
     fi
     echo "Creating README ..."
     touch $REPOSITORY_NAME/README.md
@@ -685,7 +688,7 @@ function init_files_repository()
     echo ".vscode" > $REPOSITORY_NAME/.gitignore
     echo ".gitignore is created"
     if [ $DEBUG -eq 1 ]; then
-        echo "DEBUG: return ${FUNCNAME[0]} function: 0"
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m return \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 0"
     fi
     return 0
 }
@@ -693,7 +696,7 @@ function init_files_repository()
 function init_repository()
 {
     if [ $DEBUG -eq 1 ]; then
-        echo "DEBUG: enter in ${FUNCNAME[0]} function"
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m enter in \e[1m${FUNCNAME[0]}\e[21m function\e[39m"
     fi
     git -C $REPOSITORY_NAME/ init .
     git -C $REPOSITORY_NAME/ remote add blih "git@git.epitech.eu:$EMAILB/$REPOSITORY_NAME"
@@ -705,7 +708,7 @@ function init_repository()
     git -C $REPOSITORY_NAME/ push origin master
     git -C $REPOSITORY_NAME/ push blih master
     if [ $DEBUG -eq 1 ]; then
-        echo "DEBUG: return ${FUNCNAME[0]} function: 0"
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m return \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 0"
     fi
     return 0
 }
@@ -715,63 +718,51 @@ function init_repository()
 function server_important_check()
 {
     if [ $DEBUG -eq 1 ]; then
-        echo "DEBUG: enter in ${FUNCNAME[0]} function"
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m enter in \e[1m${FUNCNAME[0]}\e[21m function\e[39m"
     fi
-    echo "Please wait ..."
+    echo -e "Please wait \e[5m...\e[0m"
     ping -c 3 api.github.com &> //dev/null
     if [ $? -ne 0 ]; then
-        echo "error: https://api.github.com are down or you are not connected to a wifi network or you have a bad wifi network"
+        echo -e "\e[1m\e[34minfo:\e[39m\e[21m https://api.github.com are down or you are not connected to a wifi network or you have a bad wifi network :("
+        echo -e "\e[1m\e[34minfo:\e[39m\e[21m https://api.github.com is not operational, so this script will not be able to generate a Github repostory"
         API=0
     else
         API=1
         if [ $DEBUG -eq 1 ]; then
-            echo "DEBUG: https://api.github.com is up"
+            echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m https://api.github.com is up\e[39m"
         fi
     fi
     
-    echo "Please wait ..."
+    echo -e "Please wait \e[5m...\e[0m"
     ping -c 3 github.com &> //dev/null
     if [ $? -ne 0 ]; then
-        echo "error: https://github.com is down or you are not connected to a wifi network or you have a bad wifi network"
+        echo -e "\e[1m\e[34minfo:\e[39m\e[21m https://github.com is down or you are not connected to a wifi network or you have a bad wifi network :("
+        echo -e "\e[1m\e[34minfo:\e[39m\e[21m https://github.com is not operational, so this script will not be able to generate a Github repostory"
         GITHUB=0
     else
         GITHUB=1
         if [ $DEBUG -eq 1 ]; then
-            echo "DEBUG: https://github.com is up"
+            echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m https://github.com is up\e[39m"
         fi
     fi
-    echo "Please wait ..."
+    echo -e "Please wait \e[5m...\e[0m"
     ping -c 3 blih.epitech.eu &> //dev/null
     if [ $? -ne 0 ]; then
-        echo "error: https://blih.epitech.eu is down or you are not connected to a wifi network or you have a bad wifi network"
+        echo -e "\e[1m\e[34minfo:\e[39m\e[21m https://blih.epitech.eu is down or you are not connected to a wifi network or you have a bad wifi network :("
+        echo -e "\e[1m\e[34minfo:\e[39m\e[21m https://blih.epitech.eu is not operational, so this script will not be able to generate a Blih repostory"
         BLIH=0
     else
         BLIH=1
         if [ $DEBUG -eq 1 ]; then
-            echo "DEBUG: https://blih.epitech.eu is up"
+            echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m https://blih.epitech.eu is up\e[39m"
         fi
-    fi
-    if [[ $API -eq 0 && $GITHUB -eq 0 && $BLIH -eq 0 ]]; then
-        echo "error: https://api.github.com, https://github.com and https://blih.epitech.eu are down, so this script does not work :("
-        if [ $DEBUG -eq 1 ]; then
-            echo "DEBUG: exit ${FUNCNAME[0]} function: 2"
-        fi
-        exit 2
-    elif [[ $API -eq 0 && $BLIH -eq 0 ]]; then
-        echo "error: https://api.github.com and https://blih.epitech.eu are down, so this script does not work :("
-        if [ $DEBUG -eq 1 ]; then
-            echo "DEBUG: exit ${FUNCNAME[0]} function: 2"
-        fi
-        exit 2
-    elif [[ $GITHUB -eq 0 && $BLIH -eq 0 ]]; then
-        echo "error: https://github.com and https://blih.epitech.eu are down, so this script does not work :("
-        if [ $DEBUG -eq 1 ]; then
-            echo "DEBUG: exit ${FUNCNAME[0]} function: 2"
-        fi
-        exit 2
     fi
     if [ $DEBUG -eq 1 ]; then
-        echo "DEBUG: return ${FUNCNAME[0]} function: 0"
+        if [[ $API -eq 0 || $GITHUB -eq 0 || $BLIH -eq 0 ]]; then
+            echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m return \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 2"
+            return 2
+        fi
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m return \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 0"
     fi
     return 0
 }
@@ -781,20 +772,20 @@ function server_important_check()
 function config()
 {
     if [ $DEBUG -eq 1 ]; then
-        echo "DEBUG: enter in ${FUNCNAME[0]} function"
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m enter in \e[1m${FUNCNAME[0]}\e[21m function\e[39m"
     fi
     case "" in
         $USERNAME | $EMAILB | $EMAILG | $SRCPWD | $NAME)
-            echo "error: please run setup.sh"
+            echo -e "\e[1m\e[91merror:\e[39m\e[21m please run setup.sh"
             if [ $DEBUG -eq 1 ]; then
-                echo "DEBUG: exit ${FUNCNAME[0]} function: 4"
+                echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m exit \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 4"
             fi
             exit 4
             ;;
     esac
     
     if [ $DEBUG -eq 1 ]; then
-        echo "DEBUG: return ${FUNCNAME[0]} function: 0"
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m return \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 0"
     fi
     return 0
 }
@@ -802,17 +793,17 @@ function config()
 ####################TIER M########################
 function main()
 {
-    config
     if [ $DEBUG -eq 1 ]; then
-        echo "DEBUG: number of arguments: $#"
-        echo "DEBUG: enter in ${FUNCNAME[0]} function"
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m number of arguments:\e[39m $#"
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m enter in \e[1m${FUNCNAME[0]}\e[21m function\e[39m"
     fi
-    echo "PROGRAM START"
+    config
+    echo -e "\e[42m\e[1mPROGRAM START\e[21m\e[49m"
     error "$@"
     if [[ $UPGRADE -eq 1 && $HELP -eq 0 ]]; then
         upgrade
         if [ $DEBUG -eq 1 ]; then
-            echo "DEBUG: return ${FUNCNAME[0]} function: 0"
+            echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m return \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 0"
         fi
         echo "PROGRAM FINISH"
         return 0
@@ -822,74 +813,72 @@ function main()
     if [ $HELP -eq 1 ]; then
         help
         if [ $DEBUG -eq 1 ]; then
-            echo "DEBUG: return ${FUNCNAME[0]} function: 0"
+            echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m return \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 0"
         fi
         echo "PROGRAM FINISH"
         return 0
     fi
     server_important_check
     if [[ $API -eq 0 || $GITHUB -eq 0 ]]; then
-        echo "info: this script does not can you the creation of Github repository because https://api.github.com or/and https://github.com does/do not respond"
         GREPO=0
     else
         read -p "Do you want to create a Github repository ? (y/n) " ANWSER
         local l_ANWSER=$ANWSER
         if [ $DEBUG -eq 1 ]; then
-            echo "DEBUG: anwser: $l_ANWSER"
+            echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m anwser:\e[39m $l_ANWSER"
         fi
         case $l_ANWSER in
             y | Y)
                 read -p "Do you want to clone this Github repository at the end ? (y/n) " ANWSER
                 local l_ANWSER=$ANWSER
                 if [ $DEBUG -eq 1 ]; then
-                    echo "DEBUG: anwser: $l_ANWSER"
+                    echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m anwser:\e[39m $l_ANWSER"
                 fi
                 case $l_ANWSER in
                     y | Y)
                         GCLONE=1
-                        echo "info: at the end the Github repository will be cloned"
+                        echo -e "\e[1m\e[34minfo:\e[39m\e[21m at the end the Github repository will be cloned"
                         ;;
                     n | N | *)
                         GCLONE=0
-                        echo "info: at the end the Github repository will not be cloned"
+                        echo -e "\e[1m\e[34minfo:\e[39m\e[21m at the end the Github repository will not be cloned"
                         ;;
                 esac
                 if [ $DEBUG -eq 1 ]; then
-                    echo "DEBUG: GCLONE equal: $GCLONE"
+                    echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m GCLONE equal:\e[39m $GCLONE"
                 fi
                 github_user
                 if [ $? -eq 1 ]; then
                     curl -f -m 120 https://github.com/$USERNAME/$REPOSITORY_NAME &> //dev/null
                     if [ $? -ne 0 ]; then
-                        echo "error: none Github repository created"
+                        echo -e "\e[1m\e[91merror:\e[39m\e[21m none Github repository created"
                     else
-                        echo "info: only your Github repository created"
+                        echo -e "\e[1m\e[34minfo:\e[39m\e[21m only your Github repository created"
                     fi
                     if [ $DEBUG -eq 1 ]; then
-                        echo "DEBUG: exit ${FUNCNAME[0]} function: 1"
+                        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m exit \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 1"
                     fi
                     exit 1
                 fi
                 GREPO=1
                 ;;
             n | N | *)
-                echo "info: none Github repository will not be created"
+                echo -e "\e[1m\e[34minfo:\e[39m\e[21m none Github repository will not be created"
                 GCLONE=0
                 GREPO=0
                 ;;
         esac
         if [ $DEBUG -eq 1 ]; then
-            echo "DEBUG: GREPO equal: $GREPO"
+            echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m GREPO equal:\e[39m $GREPO"
         fi
     fi
     if [ $BLIH -eq 0 ]; then
-        echo "info: this script cans not you the creation of Blih repository because https://blih.epitech.eu does not respond"
         BREPO=0
     else
         read -p "Do you want to create a Blih repository ? (y/n) " ANWSER
         local l_ANWSER=$ANWSER
         if [ $DEBUG -eq 1 ]; then
-            echo "DEBUG: anwser: $l_ANWSER"
+            echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m anwser:\e[39m $l_ANWSER"
         fi
         case $l_ANWSER in
             y | Y)
@@ -897,78 +886,78 @@ function main()
                     read -p "Do you want to clone this Blih repository at the end ? (y/n) " ANWSER
                     local l_ANWSER=$ANWSER
                     if [ $DEBUG -eq 1 ]; then
-                        echo "DEBUG: anwser: $l_ANWSER"
+                        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m anwser:\e[39m $l_ANWSER"
                     fi
                     case $l_ANWSER in
                         y | Y)
                             BCLONE=1
-                            echo "info: at the end the Blih repository will be cloned"
+                            echo -e "\e[1m\e[34minfo:\e[39m\e[21m at the end the Blih repository will be cloned"
                             ;;
                         n | N | *)
                             BCLONE=0
                             B_PRE_REPO=1
-                            echo "info: at the end the Blih repository will not be cloned"
+                            echo -e "\e[1m\e[34minfo:\e[39m\e[21m at the end the Blih repository will not be cloned"
                             ;;
                     esac
                 fi
                 if [ $DEBUG -eq 1 ]; then
-                    echo "DEBUG: BCLONE equal: $BCLONE"
+                    echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m BCLONE equal:\e[39m $BCLONE"
                 fi
                 blih_create_repository
                 if [ $? -ne 0 ]; then
-                    echo "info: repository $REPOSITORY_NAME was not created on https://blih.saumon.io"
+                    echo -e "\e[1m\e[34minfo:\e[39m\e[21m repository $REPOSITORY_NAME was not created on https://blih.saumon.io"
                     if [ $DEBUG -eq 1 ]; then
-                        echo "DEBUG: exit ${FUNCNAME[0]} function: 1"
+                        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m exit \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 1"
                     fi
                     exit 1
                 fi
                 BREPO=1
                 ;;
             n | N | *)
-                echo "info: none Blih repository will not be created"
+                echo -e "\e[1m\e[34minfo:\e[39m\e[21m none Blih repository will not be created"
                 BCLONE=0
                 BREPO=0
                 ;;
         esac
         if [ $DEBUG -eq 1 ]; then
-            echo "DEBUG: BREPO equal: $BREPO"
+            echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m BREPO equal:\e[39m $BREPO"
         fi
     fi
     if [[ $GREPO -eq 1 && $BREPO -eq 1 && $GCLONE -eq 1 && $BCLONE -eq 0 ]]; then
         if [ $DEBUG -eq 1 ]; then
-            echo "DEBUG: init Github repository $REPOSITORY_NAME and linked Blih"
+            echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m init Github repository $REPOSITORY_NAME and linked Blih\e[39m"
         fi
         init_repository
     elif [[ $GREPO -eq 0 && $BREPO -eq 1 && $BCLONE -eq 1 ]]; then
         if [ $DEBUG -eq 1 ]; then
-            echo "DEBUG: init Blih repository $REPOSITORY_NAME"
+            echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m init Blih repository $REPOSITORY_NAME\e[39m"
         fi
         init_repository_blih
     elif [[ $GREPO -eq 1 && $BREPO -eq 0 && $GCLONE -eq 1 ]]; then
         if [ $DEBUG -eq 1 ]; then
-            echo "DEBUG: init Github repository $REPOSITORY_NAME"
+            echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m init Github repository $REPOSITORY_NAME\e[39m"
         fi
         init_repository_github
     elif [[ $GREPO -eq 1 && $GCLONE -eq 0 ]]; then
         if [ $DEBUG -eq 1 ]; then
-            echo "DEBUG: init with a README only on Github"
+            echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m init with a README only on Github\e[39m"
         fi
     elif [[ $BREPO -eq 1 && $BCLONE -eq 0 ]]; then
         if [ $DEBUG -eq 1 ]; then
-            echo "DEBUG: init nothing because the Blih repository has not been cloned"
+            echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m init nothing because the Blih repository has not been cloned\e[39m"
         fi
     else
-        echo "info: none repository will not be created"
-        echo "PROGRAM FINISH"
+        echo -e "\e[1m\e[34minfo:\e[39m\e[21m none repository will not be created"
+        echo -e "\e[41m\e[1mPROGRAM FINISH\e[21m\e[49m"
         if [ $DEBUG -eq 1 ]; then
-            echo "DEBUG: return ${FUNCNAME[0]} function: 0"
+            echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m return \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 0"
         fi
         return 0
     fi
     if [[ $API -eq 1 && $GREPO -eq 1 && $BREPO -eq 0 || $BREPO -eq 0 && $GITHUB -eq 1  && $GREPO -eq 1 ]]; then
         read -p "Do you want to open your repository page on GitHub ? (y/n) " ANWSER
         if [ $DEBUG -eq 1 ]; then
-            echo "DEBUG: anwser: $ANWSER"
+            echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m anwser:\e[39m $ANWSER"
         fi
         local l_OPEN=$ANWSER
         case $l_OPEN in
@@ -981,7 +970,7 @@ function main()
     elif [[ $BLIH -eq 1  && $BREPO -eq 1 && $GREPO -eq 0 || $GREPO -eq 0 && $BLIH -eq 1  && $BREPO -eq 1 ]]; then
     read -p "Do you want to open your repository page on Blih saumon ? (y/n) " ANWSER
         if [ $DEBUG -eq 1 ]; then
-            echo "DEBUG: anwser: $ANWSER"
+            echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m anwser:\e[39m $ANWSER"
         fi
         local l_OPEN=$ANWSER
         case $l_OPEN in
@@ -994,7 +983,7 @@ function main()
     elif [[ $GREPO -eq 1 && $BREPO -eq 1 && $API -eq 1 && $GITHUB -eq 1 && $BLIH -eq 1 ]]; then
         read -p "Do you want to open your repository page on GitHub and Blih saumon ? (y/n) " ANWSER
         if [ $DEBUG -eq 1 ]; then
-            echo "DEBUG: anwser: $ANWSER"
+            echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m anwser:\e[39m $ANWSER"
         fi
         local l_OPEN=$ANWSER
         case $l_OPEN in
@@ -1006,9 +995,9 @@ function main()
                 ;;
         esac
     fi
-    echo "PROGRAM FINISH"
+    echo -e "\e[41m\e[1mPROGRAM FINISH\e[21m\e[49m"
     if [ $DEBUG -eq 1 ]; then
-        echo "DEBUG: return ${FUNCNAME[0]} function: 0"
+        echo -e "\e[43m\e[1mDEBUG:\e[21m\e[49m\e[33m return \e[1m${FUNCNAME[0]}\e[21m function:\e[39m 0"
     fi
     return 0
 }

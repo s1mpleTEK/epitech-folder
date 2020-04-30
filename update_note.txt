@@ -1,0 +1,83 @@
+v1.4.1-lg
+
+	Fix the features color.
+	
+	
+v1.4.1
+
+	To avoid a repeat of your own Github's password, the script ask you about it and verify if it's your good password.
+	(your password will not be registed on your computer)
+	
+
+v1.4
+
+	The debug mode is now yellow.
+	Error messages can easily be identified by red color and information messages can easily be identified by blue color.
+
+
+v1.3.5
+
+	The script offer you the possibility to add people on your own Blih repository.
+
+
+v1.3-lg
+
+	Edit the README.md.
+	
+
+v1.3
+	
+	The script offer you the possibility to add people on your own Github repository and edit the README.md.
+
+
+v1.2.3.1
+
+	Fix a syntax error shell.
+	
+
+v1.2.3-lg
+
+	Fix a command in run.sh.
+	
+
+v1.2.3
+
+	Setup.sh and reset.sh have been optimized. Fix commands in setup.sh and reset.sh and edit the README.md.
+
+
+v1.2.2
+
+	A new commands has been added: -u or --upgrade; for simplified the 'git pull' command.
+
+
+v1.2.1
+
+	The code part of Blih and Github have been optimized. New ways to initialize a repository have been added.
+	Fix reset.sh and setup.sh.
+	
+
+v1.2
+
+	The setup.sh has been added same thing for reset.sh.
+	
+
+v1.1.1
+
+	Fix an undesirable output.
+
+
+v1.1-lg
+
+	Edit the README.md.
+	
+
+v1.1
+
+	Rework Github's part and edit the README.md.
+	
+
+v1.0
+
+	Create your own repository on Github on the same moment that on Blih, with access for ramassage-tls and ramassage-tek. 
+	Once the repository was create this script clone the Github repository, then it link your Github repository at
+	your Blih repository and push a README.md and .gitignore for init the two repository.

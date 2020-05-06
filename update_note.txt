@@ -1,3 +1,8 @@
+v1.4.2
+
+	Fixed a bug with adding people feature on Github.
+
+
 v1.4.1-lg
 
 	Fix the features color.

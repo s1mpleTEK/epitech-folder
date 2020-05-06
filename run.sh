@@ -188,14 +188,14 @@ function github_more_user()
                 if [ $DEBUG -eq 1 ]; then
                     echo -e "\e[43m\e[1m\e[97mDEBUG:\e[0m\e[33m return ${FUNCNAME[0]} function:\e[0m 1"
                 fi
-                return 1
+                return 0
             fi
             ;;
         n | N | *)
             if [ $DEBUG -eq 1 ]; then
                 echo -e "\e[43m\e[1m\e[97mDEBUG:\e[0m\e[33m return ${FUNCNAME[0]} function:\e[0m 1"
             fi
-            return 1
+            return 0
             ;;
     esac
     if [ $DEBUG -eq 1 ]; then
@@ -215,6 +215,7 @@ function github_create_repository()
         if [ $? -ne 0 ];then
             rm .output
             echo -e "\e[1m\e[91merror:\e[0m the repository $REPOSITORY_NAME is not created"
+            echo -e "\e[1m\e[34minfo:\e[0m the repository $REPOSITORY_NAME already exist"
             if [ $DEBUG -eq 1 ]; then
                 echo -e "\e[43m\e[1m\e[97mDEBUG:\e[0m\e[33m exit ${FUNCNAME[0]} function:\e[0m 1"
             fi
@@ -227,6 +228,7 @@ function github_create_repository()
         if [ $? -ne 0 ];then
             rm .output
             echo -e "\e[1m\e[91merror:\e[0m the repository $REPOSITORY_NAME is not created"
+            echo -e "\e[1m\e[34minfo:\e[0m the repository $REPOSITORY_NAME already exist"
             if [ $DEBUG -eq 1 ]; then
                 echo -e "\e[43m\e[1m\e[97mDEBUG:\e[0m\e[33m exit ${FUNCNAME[0]} function:\e[0m 1"
             fi
@@ -275,12 +277,6 @@ function github_create_repository()
             ;;
     esac
     github_more_user
-    if [ $? -ne 0 ];then
-        if [ $DEBUG -eq 1 ]; then
-            echo -e "\e[43m\e[1m\e[97mDEBUG:\e[0m\e[33m return ${FUNCNAME[0]} function:\e[0m 1"
-        fi
-        return 1
-    fi
     if [ $GCLONE -eq 1 ]; then
         echo "Clones Github repository $REPOSITORY_NAME ..."
         git clone https://github.com/$USERNAME/$REPOSITORY_NAME.git

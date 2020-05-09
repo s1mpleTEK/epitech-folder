@@ -278,8 +278,7 @@ function github_create_repository()
     esac
     github_more_user
     if [ $GCLONE -eq 1 ]; then
-        echo "Clones Github repository $REPOSITORY_NAME ..."
-        git clone https://github.com/$USERNAME/$REPOSITORY_NAME.git
+        git clone git@github.com:$USERNAME/$REPOSITORY_NAME.git
         if [ $? -ne 0 ];then
             echo -e "\e[1m\e[91merror:\e[0m the repository $REPOSITORY_NAME will not be cloned"
             if [ $DEBUG -eq 1 ]; then

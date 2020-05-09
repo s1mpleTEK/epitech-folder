@@ -1,3 +1,7 @@
+v1.4.3
+
+	Added update_note and the method to clone the repository has been changed.
+
 v1.4.2
 
 	Fixed a bug with adding people feature on Github.
@@ -5,7 +9,7 @@ v1.4.2
 
 v1.4.1-lg
 
-	Fix the features color.
+	Fixed the features color.
 	
 	
 v1.4.1

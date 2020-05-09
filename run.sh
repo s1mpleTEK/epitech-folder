@@ -16,6 +16,7 @@ GITHUB=0
 BLIH=0
 API=0
 NETROUTER=0
+DESCRIPTION=""
 cmd=('-h' '--help' '-d' '--debug' '-dh' '-hd' '--help--debug' '--debug--help' '-u' '--upgrade')
 REPOSITORY_NAME=""
 USERNAME=`git config --global github.user`
@@ -137,6 +138,36 @@ function upgrade()
 ##################################################
 
 ####################TIER G########################
+function github_add_description()
+{
+    if [ $DEBUG -eq 1 ]; then
+        echo -e "\e[43m\e[1m\e[97mDEBUG:\e[0m\e[33m enter in ${FUNCNAME[0]} function\e[0m"
+    fi
+    read -p "Do you want to add a description to your repository ? (y/n) " ANWSER
+    local l_ANWSER=$ANWSER
+    case $l_ANWSER in
+        y | Y)
+            read -p "Write your description: " DESCRIPTION
+            curl -f -m 120 -u $USERNAME:$PASSWORD https://api.github.com/repos/$USERNAME/$REPOSITORY_NAME -d '{"description":"'$DESCRIPTION'"}' >> .output
+            if [ $? -ne 0 ];then
+                rm .output
+                echo -e "\e[1m\e[91merror:\e[0m the description of repository $REPOSITORY_NAME is not created"
+                if [ $DEBUG -eq 1 ]; then
+                    echo -e "\e[43m\e[1m\e[97mDEBUG:\e[0m\e[33m exit ${FUNCNAME[0]} function:\e[0m 1"
+                fi
+                exit 1
+            fi
+            rm .output
+            ;;
+        n | N | *)
+            ;;
+    esac
+    if [ $DEBUG -eq 1 ]; then
+        echo -e "\e[43m\e[1m\e[97mDEBUG:\e[0m\e[33m return ${FUNCNAME[0]} function:\e[0m 0"
+    fi
+    return 0
+}
+
 function github_add_user()
 {
     if [ $DEBUG -eq 1 ]; then
@@ -276,6 +307,7 @@ function github_create_repository()
             echo -e "\e[1m\e[34minfo:\e[0m the Github repository $REPOSITORY_NAME will not does give access to ramassage-tls"
             ;;
     esac
+    github_add_description
     github_more_user
     if [ $GCLONE -eq 1 ]; then
         git clone git@github.com:$USERNAME/$REPOSITORY_NAME.git

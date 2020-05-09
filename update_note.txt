@@ -1,6 +1,12 @@
+v1.5
+
+	The script offer you the possibility to add a description for your Github repository.
+
+
 v1.4.3
 
 	Added update_note and the method to clone the repository has been changed.
+
 
 v1.4.2
 
@@ -10,8 +16,8 @@ v1.4.2
 v1.4.1-lg
 
 	Fixed the features color.
-	
-	
+
+
 v1.4.1
 
 	To avoid a repeat of your own Github's password, the script ask you about it and verify if it's your good password.

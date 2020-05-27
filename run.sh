@@ -147,7 +147,8 @@ function github_add_description()
     local l_ANWSER=$ANWSER
     case $l_ANWSER in
         y | Y)
-            read -p "Write your description: " DESCRIPTION
+            read -p "Write your description: " ANWSER
+            DESCRIPTION="$ANWSER"
             curl -f -m 120 -u $USERNAME:$PASSWORD https://api.github.com/repos/$USERNAME/$REPOSITORY_NAME -d '{"description":"'$DESCRIPTION'"}' >> .output
             if [ $? -ne 0 ];then
                 rm .output
@@ -307,7 +308,7 @@ function github_create_repository()
             echo -e "\e[1m\e[34minfo:\e[0m the Github repository $REPOSITORY_NAME will not does give access to ramassage-tls"
             ;;
     esac
-    github_add_description
+    # github_add_description
     github_more_user
     if [ $GCLONE -eq 1 ]; then
         git clone git@github.com:$USERNAME/$REPOSITORY_NAME.git

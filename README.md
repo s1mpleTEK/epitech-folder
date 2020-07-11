@@ -35,15 +35,15 @@ These instructions will get you a copy of the project up and running on your loc
 ### Installing
 
 To clone this project, write this command:
-``` shell
-user:~/$> git clone https://github.com/s1mpleTEK/epitech-folder
+```
+git clone git@github.com:s1mpleTEK/epitech-folder.git
 ```
 
 ### Prerequisites
 
 You need to verify that `xdg-open` is on your machine, to do this you need to run this command:
-``` shell
-user:~/$> whereis xdg-open
+```
+whereis xdg-open
 ```
 Now, follow the usage of setup.sh.
 
@@ -52,21 +52,21 @@ Now, follow the usage of setup.sh.
 ### setup.sh
 
 After that, you need to set up your computer. For this run:
-``` shell
+```
 user:~/epitech-folder/$> ./setup.sh
 ```
 
 ### run.sh
 
 To create your repository you must then launch `run.sh`, in the right place for the creation of your repository. Example:
-``` shell
+```
 user:~/delivery/'Unix System Programming'/$> ../../epitech-folder/./run.sh
 ```
 
 ### reset.sh
 
 If you want change your paramater, you can re-run `setup.sh` or `reset.sh` and `setup.sh` after this.
-``` shell
+```
 user:~/epitech-folder/$> ./reset.sh
 ```
 

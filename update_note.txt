@@ -1,6 +1,11 @@
+v1.5.1
+
+	The script no longer offers you the possibility to add a description for your Github repository because of some problems
+	caused by a badly sent data.
+
 v1.5
 
-	The script offer you the possibility to add a description for your Github repository.
+	The script offers you the possibility to add a description for your Github repository.
 
 
 v1.4.3
@@ -32,7 +37,7 @@ v1.4
 
 v1.3.5
 
-	The script offer you the possibility to add people on your own Blih repository.
+	The script offers you the possibility to add people on your own Blih repository.
 
 
 v1.3-lg
@@ -42,7 +47,7 @@ v1.3-lg
 
 v1.3
 	
-	The script offer you the possibility to add people on your own Github repository and edit the README.md.
+	The script offers you the possibility to add people on your own Github repository and edit the README.md.
 
 
 v1.2.3.1
